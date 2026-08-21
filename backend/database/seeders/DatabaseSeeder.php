@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Technology;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +14,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        User::create([
+            'name'      =>  'Muhammad Abhiraffa Hamizan',
+            'email'     =>  'raplhy@portfolio.com',
+            'password'  =>  Hash::make('admin12345'),
         ]);
+
+        $technologies = [
+            ['name' =>  'Vue.js 3', 'category'  =>  'frontend'],
+            ['name' =>  'Tailwind CSS', 'category'  =>  'frontend'],
+            ['name' =>  'Laravel 11', 'category'  =>  'backend'],
+            ['name' =>  'MySQL', 'category'  =>  'database'],
+            ['name' =>  'Vite', 'category'  =>  'tools'],
+        ];
+
+        foreach ($technologies as $tech) {
+            Technology::create($tech);
+        }
     }
 }
