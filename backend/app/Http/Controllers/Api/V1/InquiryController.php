@@ -10,10 +10,10 @@ class InquiryController extends Controller
 {
     public function store(Request $request) {
         $validated = $request->validate([
-            'sender_nama'   =>  'required|string|max:100',
+            'sender_name'   => 'required|string|max:100',
             'email'         => 'required|email|max:150',
-            'subject'         => 'required|string|max:200',
-            'message'         => 'required|string',
+            'subject'       => 'required|string|max:200',
+            'message'       => 'required|string',
         ]);
 
         $inquiry = Inquiry::create([
