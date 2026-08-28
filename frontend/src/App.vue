@@ -20,7 +20,7 @@
 
     <!-- Footer -->
     <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500">
-      &copy; 2026 Panca Raditya. Decoupled Architecture with Laravel 11 & Vue 3.
+      &copy; 2026 Muhammad Abhiraffa Hamizan. Decoupled Architecture with Laravel 11 & Vue 3.
     </footer>
   </div>
 </template>

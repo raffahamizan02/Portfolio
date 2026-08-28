@@ -29,10 +29,10 @@ onMounted(async () => {
     <!-- Hero Section -->
     <section class="text-center py-10 space-y-3">
       <h1 class="text-4xl md:text-5xl font-extrabold text-teal-400 tracking-tight">
-        Halo, Saya Panca Raditya
+        Halo, Saya Muhammad Abhiraffa Hamizan
       </h1>
       <p class="text-slate-400 text-lg max-w-xl mx-auto">
-        Full-Stack Web Developer berfokus pada arsitektur decoupled (Laravel + Vue.js).
+        Back-End Developer yang berfokus pada pengembangan website berbasis desktop.
       </p>
     </section>
 
