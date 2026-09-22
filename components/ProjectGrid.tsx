@@ -10,7 +10,6 @@ export default function ProjectGrid() {
         <Reveal>
           <SectionHeading
             title="All projects"
-            description=""
           />
         </Reveal>
 

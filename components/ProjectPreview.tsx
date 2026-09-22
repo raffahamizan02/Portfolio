@@ -14,7 +14,6 @@ export default function ProjectPreview() {
         <Reveal>
           <SectionHeading
             title="Featured projects"
-            description=""
           />
         </Reveal>
 
