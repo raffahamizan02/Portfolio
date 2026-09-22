@@ -60,10 +60,6 @@ export type Project = {
   repoUrl: string | null;
 };
 
-// NOTE: Only the project names were provided as real information.
-// Descriptions below are reasonable, honest inferences from those names,
-// not invented outcomes or client work. Links are left null (not fabricated)
-// until real repositories/URLs are available — update these as projects ship.
 export const projects: Project[] = [
   {
     slug: "chess-game",
