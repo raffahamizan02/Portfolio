@@ -54,7 +54,7 @@ export type Project = {
   role: string;
   year: string;
   technologies: string[];
-  image: string;
+  image?: string;
   results: string;
   liveUrl: string | null;
   repoUrl: string | null;
