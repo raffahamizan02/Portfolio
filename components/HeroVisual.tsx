@@ -1,35 +1,31 @@
 "use client";
 
-import { useRef, useState, useCallback, useEffect } from "react";
-
-const LENS_RADIUS = 65;
+import { useEffect, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 
 export default function HeroVisual() {
   const [imgError, setImgError] = useState(false);
-  const [hovering, setHovering] = useState(false);
-  const [pos, setPos] = useState({ x: -999, y: -999 });
-  const [reduced, setReduced] = useState(false);
-  const frameRef = useRef<HTMLDivElement>(null);
+  const [decoded, setDecoded] = useState(false);
+  const [replayKey, setReplayKey] = useState(0);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
-    setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-  }, []);
+    if (shouldReduceMotion) {
+      setDecoded(true);
+      return;
+    }
+    setDecoded(false);
+    const timeout = setTimeout(() => setDecoded(true), 900);
+    return () => clearTimeout(timeout);
+  }, [replayKey, shouldReduceMotion]);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const el = frameRef.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    setPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-  }, []);
-
-  const clipPath = hovering
-    ? `circle(${LENS_RADIUS}px at ${pos.x}px ${pos.y}px)`
-    : `circle(0px at ${pos.x}px ${pos.y}px)`;
+  const replay = () => {
+    if (shouldReduceMotion) return;
+    setReplayKey((k) => k + 1);
+  };
 
   return (
-    <div
-      className="reveal relative aspect-square max-w-[420px] w-full md:justify-self-end"
-    >
+    <div className="reveal relative aspect-square max-w-[420px] w-full md:justify-self-end">
       <div
         aria-hidden="true"
         className="absolute inset-0 rounded-full opacity-70 pointer-events-none"
@@ -39,55 +35,48 @@ export default function HeroVisual() {
         }}
       />
 
-      {!reduced && (
-        <span
-          className={`absolute top-3 left-3 z-20 font-mono text-[0.68rem] text-accent bg-bg/80 border border-hairline rounded-full px-2.5 py-1 transition-opacity duration-200 pointer-events-none ${
-            hovering ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          ◎ scanning: identity.exe
-        </span>
-      )}
-
-      <div
-        ref={frameRef}
-        onMouseMove={reduced ? undefined : handleMouseMove}
-        onMouseEnter={reduced ? undefined : () => setHovering(true)}
-        onMouseLeave={reduced ? undefined : () => setHovering(false)}
-        className="absolute inset-[8%] rounded-m overflow-hidden border border-hairline bg-bg-raised shadow-[0_20px_45px_-15px_rgba(200,16,46,0.35)]"
+      <button
+        type="button"
+        onClick={replay}
+        aria-label="Replay scan animation"
+        className="absolute inset-[8%] rounded-m overflow-hidden border border-hairline bg-bg-raised shadow-[0_20px_45px_-15px_rgba(200,16,46,0.35)] p-0 cursor-pointer text-left"
       >
         {!imgError ? (
           <>
             <img
               src="/projects/profile.jpg"
               alt="Foto profil Muhammad Abhiraffa Hamizan"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover transition-[filter] duration-[900ms] ease-out"
+              style={{
+                filter: decoded
+                  ? "blur(0px) grayscale(0) contrast(1) hue-rotate(0deg)"
+                  : "blur(10px) grayscale(1) contrast(1.4) hue-rotate(180deg)",
+              }}
               onError={() => setImgError(true)}
             />
 
-            {!reduced && (
-              <div
-                className="absolute inset-0 pointer-events-none glitch-jitter"
-                style={{ clipPath, transition: "clip-path 0.1s ease-out" }}
-              >
-                <img
-                  src="/projects/profile.jpg"
-                  alt=""
-                  aria-hidden="true"
-                  className="w-full h-full object-cover"
-                  style={{
-                    filter: "invert(1) hue-rotate(220deg) saturate(2.4) contrast(1.15)",
-                  }}
-                />
-                <div
-                  className="absolute inset-0 mix-blend-overlay opacity-60"
-                  style={{
-                    backgroundImage:
-                      "repeating-linear-gradient(0deg, rgba(255,255,255,0.5) 0px, rgba(255,255,255,0.5) 1px, transparent 1px, transparent 3px)",
-                  }}
-                />
-              </div>
+            {!shouldReduceMotion && (
+              <motion.div
+                key={replayKey}
+                className="absolute left-0 right-0 h-10 pointer-events-none"
+                style={{
+                  background:
+                    "linear-gradient(to bottom, transparent, var(--accent-tint) 45%, var(--accent) 50%, var(--accent-tint) 55%, transparent)",
+                  opacity: 0.85,
+                }}
+                initial={{ top: "-10%" }}
+                animate={{ top: "100%" }}
+                transition={{ duration: 0.9, ease: "easeInOut" }}
+              />
             )}
+
+            <span
+              className={`absolute top-3 left-3 font-mono text-[0.75rem] bg-bg/85 border border-hairline rounded-full px-2.5 py-1 transition-opacity duration-350 ${
+                decoded ? "text-gold" : "text-muted"
+              }`}
+            >
+              {decoded ? "◎ Tap to Scan" : "◎ Muhammad Abhiraffa Hamizan"}
+            </span>
           </>
         ) : (
           <div className="w-full h-full flex flex-col items-center justify-center gap-4 text-center p-8 border-2 border-dashed border-hairline">
@@ -117,7 +106,7 @@ export default function HeroVisual() {
             </div>
           </div>
         )}
-      </div>
+      </button>
     </div>
   );
 }

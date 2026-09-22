@@ -13,7 +13,6 @@ export const profile = {
   tiktok: "https://www.tiktok.com/@raffa.hz_",
   facebook: "https://www.facebook.com/raffahamizan0205",
   twitter: "https://x.com/@RaplhyVando",
-  website: "", // On the way
   bio: [
     "I'm a Software Engineering student at SMK PGRI 3 Malang with a strong interest in backend development and building reliable, efficient, and scalable applications. I enjoy learning how systems work behind the scenes — from designing APIs and managing databases to writing server-side logic.",
     "Beyond technology, I'm a competitive chess player with experience in numerous tournaments. Chess has sharpened my analytical thinking, strategic decision-making, patience, and ability to solve problems under pressure — skills I carry directly into programming.",
@@ -55,7 +54,6 @@ export type Project = {
   year: string;
   technologies: string[];
   image?: string;
-  results: string;
   liveUrl: string | null;
   repoUrl: string | null;
 };
@@ -70,7 +68,6 @@ export const projects: Project[] = [
     year: "2026",
     technologies: ["API design", "Backend logic"],
     image: "/projects/chess-game.jpg",
-    results: "Details coming soon",
     liveUrl: null,
     repoUrl: "https://github.com/raffahamizan02/ChessGameAPI",
   },
@@ -83,7 +80,6 @@ export const projects: Project[] = [
     year: "2026",
     technologies: ["Express JS", "Cloudflare KV", "Groq LLM", "NusaTTSE"],
     image: "/projects/nusa-quest.jpg",
-    results: "Details coming soon",
     liveUrl: "https://nusaquest.pages.dev/",
     repoUrl: "https://github.com/biebpp/NusaQuest"
   },
@@ -91,22 +87,22 @@ export const projects: Project[] = [
 
 export const journey = [
   {
-    when: "Ongoing",
-    title: "Software Engineering student",
-    org: "SMKS PGRI 3 Malang",
-    body: "Studying software engineering with a focus on backend development — API design, database management, and server-side logic.",
-    points: [
-      "Learning PHP, Java, JavaScript, and Python across coursework and personal projects",
-      "Working with Laravel, MySQL, and MongoDB",
-      "Building projects independently, versioned with Git and GitHub",
-    ],
+    when: "Juli 2022 - Juni 2025",
+    title: "Student",
+    org: "MTs Negeri Batu",
+    body: "Studying "
   },
   {
-    when: "Ongoing",
+    when: "Juli 2025 - Present",
+    title: "Software Engineering Student",
+    org: "SMKS PGRI 3 Malang",
+    body: "Studying software engineering with a focus on backend development"
+  },
+  {
+    when: " Juli 2018 - Present",
     title: "Competitive chess player",
     org: "Tournament play",
-    body: "Participating in chess tournaments alongside my studies. The game has shaped how I think through problems: analytical, patient, and deliberate under pressure — habits that carry directly into how I approach code.",
-    points: [] as string[],
+    body: "Participating in chess tournaments alongside my studies. The game has shaped how I think through problems: analytical, patient, and deliberate under pressure — habits that carry directly into how I approach code."
   },
 ];
 

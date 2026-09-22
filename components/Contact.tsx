@@ -1,17 +1,18 @@
 import ContactForm from "./ContactForm";
 import Reveal from "./Reveal";
 import { profile } from "@/lib/data";
+import SectionHeading from "./SectionHeading";
 
 export default function Contact() {
   return (
     <section id="contact" className="py-24 border-t border-hairline">
       <div className="max-w-content mx-auto px-7 grid md:grid-cols-[0.9fr_1.1fr] gap-12 md:gap-16">
         <Reveal>
-          <span className="block font-mono text-[0.78rem] text-accent mb-4">Contact</span>
-          <h2 className="font-display font-semibold text-[clamp(1.7rem,3.4vw,2.3rem)] max-w-[14ch] leading-tight">
-            Have a project in mind? Let&apos;s build something meaningful.
-          </h2>
+          <SectionHeading 
+            title="Contact"
+          />
           <p className="mt-4.5 text-muted text-[1.02rem] max-w-[40ch]">
+            Have a project in mind? Let&apos;s build something meaningful.
             Open to internships, junior backend roles, and small collaborative
             projects. Reach out directly, or use the form.
           </p>

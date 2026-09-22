@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
 import {
   FaGithub,
   FaLinkedin,
@@ -25,6 +26,23 @@ const socials = [
   { icon: FaXTwitter, href: profile.twitter, label: "X / Twitter", pending: false },
 ];
 
+function WobbleWord({ word }: { word: string }) {
+  return (
+    <span className="inline-block">
+      {word.split("").map((char, i) => (
+        <motion.span
+          key={i}
+          className="inline-block"
+          whileHover={{ y: -10, color: "var(--accent)" }}
+          transition={{ type: "spring", stiffness: 400, damping: 12 }}
+        >
+          {char}
+        </motion.span>
+      ))}
+    </span>
+  );
+}
+
 export default function Footer() {
   const pathname = usePathname();
   const isHome = pathname === "/";
@@ -33,9 +51,9 @@ export default function Footer() {
   return (
     <footer className="pt-20 pb-8 border-t border-hairline">
       <div className="max-w-content mx-auto px-7">
-        <a href={hrefFor("#top")} className="block no-underline w-fit group">
-          <h2 className="font-display font-semibold uppercase leading-[0.9] text-[clamp(2.6rem,9vw,6.5rem)] tracking-tight text-ink group-hover:text-accent transition-colors">
-            Abhiraffa Hamizan
+        <a href={hrefFor("#top")} className="block no-underline w-fit">
+          <h2 className="font-display font-semibold uppercase leading-[0.9] text-[clamp(2.6rem,9vw,6.5rem)] tracking-tight text-ink">
+            <WobbleWord word="Abhiraffa Hamizan" />
           </h2>
         </a>
 
