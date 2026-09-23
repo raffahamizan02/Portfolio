@@ -8,14 +8,10 @@ export const profile = {
     "https://www.linkedin.com/in/muhammad-abhiraffa-hamizan-b1a097438/",
   github: "https://github.com/raffahamizan02",
   instagram: "https://www.instagram.com/raff_hamiz",
-  whatsapp: "https://wa.me/6281249872205",
   discord: "https://discord.com/users/rraplhybbums_96320",
-  tiktok: "https://www.tiktok.com/@raffa.hz_",
-  facebook: "https://www.facebook.com/raffahamizan0205",
-  twitter: "https://x.com/@RaplhyVando",
   bio: [
-    "I'm a Software Engineering student at SMK PGRI 3 Malang with a strong interest in backend development and building reliable, efficient, and scalable applications. I enjoy learning how systems work behind the scenes — from designing APIs and managing databases to writing server-side logic.",
-    "Beyond technology, I'm a competitive chess player with experience in numerous tournaments. Chess has sharpened my analytical thinking, strategic decision-making, patience, and ability to solve problems under pressure — skills I carry directly into programming.",
+    "I'm a Software Engineering student at SMK PGRI 3 Malang with a strong interest in backend development and building reliable, efficient, and scalable applications. I enjoy learning how systems work behind the scenes, from designing APIs and managing databases to writing server-side logic.",
+    "Beyond technology, I'm a competitive chess player with experience in numerous tournaments. Chess has sharpened my analytical thinking, strategic decision-making, patience, and ability to solve problems under pressure, skills I carry directly into programming.",
     "I'm continuing to build my technical skills through projects and hands-on practice, with the goal of becoming a professional backend developer and contributing to technology that matters.",
   ],
 };

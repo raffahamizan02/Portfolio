@@ -6,11 +6,7 @@ import {
   FaGithub,
   FaLinkedin,
   FaInstagram,
-  FaWhatsapp,
   FaDiscord,
-  FaTiktok,
-  FaFacebook,
-  FaXTwitter,
 } from "react-icons/fa6";
 import { ArrowUp } from "lucide-react";
 import { profile } from "@/lib/data";
@@ -19,11 +15,7 @@ const socials = [
   { icon: FaGithub, href: profile.github, label: "GitHub", pending: false },
   { icon: FaLinkedin, href: profile.linkedin, label: "LinkedIn", pending: false },
   { icon: FaInstagram, href: profile.instagram, label: "Instagram", pending: false },
-  { icon: FaWhatsapp, href: profile.whatsapp, label: "WhatsApp", pending: false },
   { icon: FaDiscord, href: profile.discord, label: "Discord", pending: false },
-  { icon: FaTiktok, href: profile.tiktok, label: "TikTok", pending: false },
-  { icon: FaFacebook, href: profile.facebook, label: "Facebook", pending: false },
-  { icon: FaXTwitter, href: profile.twitter, label: "X / Twitter", pending: false },
 ];
 
 function WobbleWord({ word }: { word: string }) {

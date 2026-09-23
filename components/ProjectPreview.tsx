@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import SectionHeading from "./SectionHeading";
-import ProjectCard from "./ProjectCard";
+import ProjectPreviewCard from "./ProjectPreviewCard";
 import Reveal from "./Reveal";
 import { projects } from "@/lib/data";
 
@@ -20,7 +20,7 @@ export default function ProjectPreview() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-7">
           {featured.map((project, i) => (
             <Reveal key={project.slug} delay={i * 0.08}>
-              <ProjectCard project={project} />
+              <ProjectPreviewCard project={project} />
             </Reveal>
           ))}
         </div>

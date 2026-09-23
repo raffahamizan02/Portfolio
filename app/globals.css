@@ -63,6 +63,12 @@ body {
   transition: background-color 0.25s ease, color 0.25s ease;
 }
 
+@media (max-width: 767px) {
+  body {
+    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
 ::selection {
   background: var(--accent-tint);
   color: var(--accent-strong);

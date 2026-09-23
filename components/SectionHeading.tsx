@@ -3,11 +3,11 @@ type SectionHeadingProps = {
 };
 
 export default function SectionHeading({
-  title = "",
+  title,
 }: SectionHeadingProps) {
   return (
-    <div className="max-w-xl mb-14">
-      <h2 className="font-display font-semibold text-[clamp(1.6rem,3vw,2.1rem)] leading-tight text-accent ">
+    <div className="max-w-2xl mx-auto mb-16 text-center">
+      <h2 className="font-display font-semibold text-[clamp(2rem,4.2vw,2.9rem)] leading-tight">
         {title}
       </h2>
     </div>
