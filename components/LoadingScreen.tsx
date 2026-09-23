@@ -4,15 +4,16 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 const STATUS_LINES = [
-  "npm install patience.js",
-  "castling the database",
-  "e4 — opening the connection",
-  'git commit -m "good move"',
-  "calculating best endpoint",
-  "Nf3 — developing the API",
-  "checking for check(mate)s",
-  "compiling backend logic",
-  "resigning to the build process",
+  "Selamat Datang",
+  "Sugeng Rawuh",
+  "Wilujeng Sumping",
+  "Rahajeng Rawuh",
+  "Selamat Tibo",
+  "Awak Datang, Kamek Sambut",
+  "Selamet dateng",
+  "Horas Ma Di Hamu",
+  "Selamaik Tibo",
+  "Saleum Teuka",
 ];
 
 const KNIGHT_PATH: [number, number][] = [

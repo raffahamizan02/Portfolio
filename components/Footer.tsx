@@ -52,8 +52,9 @@ export default function Footer() {
     <footer className="pt-20 pb-8 border-t border-hairline">
       <div className="max-w-content mx-auto px-7">
         <a href={hrefFor("#top")} className="block no-underline w-fit">
-          <h2 className="font-display font-semibold uppercase leading-[0.9] text-[clamp(2.6rem,9vw,6.5rem)] tracking-tight text-ink">
-            <WobbleWord word="Abhiraffa Hamizan" />
+          <h2 className="font-display font-semibold uppercase leading-[0.9] text-[clamp(2.6rem,9vw,6.5rem)] tracking-tight text-ink flex justify-center items-center gap-8 flex-wrap">
+            <WobbleWord word="Abhiraffa" /> {""}
+            <WobbleWord word="Hamizan" />
           </h2>
         </a>
 
@@ -69,11 +70,10 @@ export default function Footer() {
                 rel={isExternal ? "noopener noreferrer" : undefined}
                 aria-label={s.pending ? `${s.label} (coming soon)` : s.label}
                 title={s.pending ? `${s.label} — coming soon` : s.label}
-                className={`w-11 h-11 rounded-full border grid place-items-center transition-colors ${
-                  s.pending
-                    ? "border-hairline text-muted/60 cursor-default"
-                    : "border-hairline text-ink hover:border-accent hover:text-accent"
-                }`}
+                className={`w-11 h-11 rounded-full border grid place-items-center transition-colors ${s.pending
+                  ? "border-hairline text-muted/60 cursor-default"
+                  : "border-hairline text-ink hover:border-accent hover:text-accent"
+                  }`}
                 onClick={s.pending ? (e) => e.preventDefault() : undefined}
               >
                 <Icon size={17} />
