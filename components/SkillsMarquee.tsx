@@ -1,103 +1,55 @@
-import { FaJava, FaGithub } from "react-icons/fa6";
-import {
-  SiJavascript,
-  SiTypescript,
-  SiPython,
-  SiPhp,
-  SiCplusplus,
-  SiSharp,
-  SiGo,
-  SiRust,
-  SiKotlin,
-  SiSwift,
-  SiDart,
-  SiRuby,
-  SiReact,
-  SiNextdotjs,
-  SiNodedotjs,
-  SiExpress,
-  SiLaravel,
-  SiDjango,
-  SiFlask,
-  SiSpring,
-  SiVuedotjs,
-  SiTailwindcss,
-  SiBootstrap,
-  SiHtml5,
-  SiCss,
-  SiMysql,
-  SiPostgresql,
-  SiMongodb,
-  SiRedis,
-  SiSqlite,
-  SiFirebase,
-  SiGit,
-  SiDocker,
-  SiLinux,
-  SiFigma,
-  SiPostman,
-} from "react-icons/si";
-
-const rowOne = [
-  { icon: SiJavascript, label: "JavaScript" },
-  { icon: SiTypescript, label: "TypeScript" },
-  { icon: SiPython, label: "Python" },
-  { icon: FaJava, label: "Java" },
-  { icon: SiPhp, label: "PHP" },
-  { icon: SiMysql, label: "MySQL" },
-  { icon: SiMongodb, label: "MongoDB" },
-  { icon: SiSqlite, label: "SQLite" },
-  { icon: SiGit, label: "Git" },
-  { icon: FaGithub, label: "GitHub" },
-  { icon: SiPostman, label: "Postman" },
-];
-
-const rowTwo = [
-  { icon: SiReact, label: "React" },
-  { icon: SiNextdotjs, label: "Next.js" },
-  { icon: SiNodedotjs, label: "Node.js" },
-  { icon: SiExpress, label: "Express" },
-  { icon: SiLaravel, label: "Laravel" },
-  { icon: SiVuedotjs, label: "Vue.js" },
-  { icon: SiTailwindcss, label: "Tailwind CSS" },
-  { icon: SiBootstrap, label: "Bootstrap" },
-  { icon: SiHtml5, label: "HTML5" },
-  { icon: SiCss, label: "CSS3" },
-  { icon: SiFigma, label: "Figma" },
-];
-
-type Row = typeof rowOne;
+import { rowOne, rowTwo, type SkillItem } from "@/lib/skillsData";
 
 function MarqueeRow({
   items,
   reverse = false,
   speed = 28,
 }: {
-  items: Row;
+  items: SkillItem[];
   reverse?: boolean;
   speed?: number;
 }) {
   const loop = [...items, ...items];
 
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden py-1">
       <div
-        className={`flex w-max gap-14 py-3 ${
-          reverse ? "marquee-track-reverse animate-marquee-reverse" : "marquee-track animate-marquee"
+        className={`flex w-max gap-8 py-3.5 ${
+          reverse
+            ? "marquee-track-reverse animate-marquee-reverse"
+            : "marquee-track animate-marquee"
         }`}
         style={{ animationDuration: `${speed}s` }}
       >
         {loop.map((t, i) => {
           const Icon = t.icon;
+          const isAriaDuplicate = i >= items.length;
+
           return (
-            <span
-              key={i}
-              aria-hidden={i >= items.length}
-              className="flex flex-col items-center gap-2.5 text-muted shrink-0"
+            <a
+              key={`${t.name}-${i}`}
+              href={t.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              tabIndex={isAriaDuplicate ? -1 : 0}
+              aria-hidden={isAriaDuplicate ? true : undefined}
+              aria-label={`Buka website resmi ${t.label}`}
+              title={`Kunjungi website resmi ${t.label} (${t.url})`}
+              className="skill-item group relative flex flex-col items-center gap-2.5 shrink-0 px-3 py-2 rounded-2xl cursor-pointer hover:-translate-y-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+              style={{
+                ["--brand-color" as string]: t.color,
+                ["--brand-bg" as string]: `${t.color}15`,
+                ["--brand-border" as string]: `${t.color}35`,
+                ["--brand-glow" as string]: `${t.color}45`,
+              }}
             >
-              <Icon size={32} />
-              <span className="font-mono text-[0.72rem] whitespace-nowrap">{t.label}</span>
-            </span>
+              <div className="skill-icon-box w-14 h-14 rounded-xl flex items-center justify-center border border-hairline/70 bg-bg-raised/80 backdrop-blur-xs">
+                <Icon size={30} className="skill-icon text-muted" />
+              </div>
+              <span className="skill-label font-mono text-[0.73rem] text-muted whitespace-nowrap">
+                {t.label}
+              </span>
+            </a>
           );
         })}
       </div>
@@ -107,14 +59,15 @@ function MarqueeRow({
 
 export default function SkillsMarquee() {
   const all = [...rowOne, ...rowTwo];
+
   return (
     <div
-      className="flex flex-col gap-9"
-      role="img"
+      className="flex flex-col gap-6"
+      role="region"
       aria-label={`Skills and technologies: ${all.map((t) => t.label).join(", ")}`}
     >
-      <MarqueeRow items={rowOne} speed={30} />
-      <MarqueeRow items={rowTwo} reverse speed={34} />
+      <MarqueeRow items={rowOne} speed={32} />
+      <MarqueeRow items={rowTwo} reverse speed={36} />
     </div>
   );
-}
+}

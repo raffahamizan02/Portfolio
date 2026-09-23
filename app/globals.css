@@ -146,6 +146,40 @@ body {
   animation-play-state: paused;
 }
 
+/* Skill brand hover effect */
+.skill-item {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+
+.skill-item .skill-icon-box {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.skill-item .skill-icon {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.skill-item .skill-label {
+  transition: color 0.25s ease, font-weight 0.25s ease;
+}
+
+.skill-item:hover .skill-icon {
+  color: var(--brand-color) !important;
+  filter: drop-shadow(0 0 10px var(--brand-glow));
+  transform: scale(1.12);
+}
+
+.skill-item:hover .skill-icon-box {
+  background-color: var(--brand-bg) !important;
+  border-color: var(--brand-border) !important;
+  box-shadow: 0 8px 24px var(--brand-glow);
+}
+
+.skill-item:hover .skill-label {
+  color: var(--brand-color) !important;
+  font-weight: 600;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .glitch-jitter {
     animation: none;
