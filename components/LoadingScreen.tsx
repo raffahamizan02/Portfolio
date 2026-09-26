@@ -6,8 +6,6 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 const STATUS_LINES = [
   "Selamat Datang",
   "Welcome",
-  "Youkoso",
-  "Willkommen",
   "Ahlan wa sahlan",
 ];
 
@@ -24,8 +22,8 @@ const KNIGHT_PATH: [number, number][] = [
 
 const GRID_SIZE = 3;
 const CELL = 46;
-const TOTAL_DURATION = 2000;
-const STEP_INTERVAL = 240;
+const TOTAL_DURATION = 1000;
+const STEP_INTERVAL = 140;
 const STORAGE_KEY = "loader-seen";
 
 export default function LoadingScreen() {

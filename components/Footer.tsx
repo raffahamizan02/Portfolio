@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa6";
 import { ArrowUp } from "lucide-react";
 import { profile } from "@/lib/data";
+import TechText from "./TechText";
 
 const socials = [
   { icon: FaGithub, href: profile.github, label: "GitHub", pending: false },
@@ -17,23 +18,6 @@ const socials = [
   { icon: FaInstagram, href: profile.instagram, label: "Instagram", pending: false },
   { icon: FaDiscord, href: profile.discord, label: "Discord", pending: false },
 ];
-
-function WobbleWord({ word }: { word: string }) {
-  return (
-    <span className="inline-block">
-      {word.split("").map((char, i) => (
-        <motion.span
-          key={i}
-          className="inline-block"
-          whileHover={{ y: -10, color: "var(--accent)" }}
-          transition={{ type: "spring", stiffness: 400, damping: 12 }}
-        >
-          {char}
-        </motion.span>
-      ))}
-    </span>
-  );
-}
 
 export default function Footer() {
   const pathname = usePathname();
@@ -43,11 +27,10 @@ export default function Footer() {
   return (
     <footer className="pt-20 pb-8 border-t border-hairline">
       <div className="max-w-content mx-auto px-7">
-        <a href={hrefFor("#top")} className="block no-underline w-fit">
-          <h2 className="font-display font-semibold uppercase leading-[0.9] text-[clamp(2.6rem,9vw,6.5rem)] tracking-tight text-ink flex justify-center items-center gap-8 flex-wrap">
-            <WobbleWord word="Abhiraffa" /> {""}
-            <WobbleWord word="Hamizan" />
-          </h2>
+        <a href={hrefFor("#top")} className="flex mx-auto no-underline w-fit">
+          <h1 className="scale-x-[1.5] origin-center font-display font-semibold uppercase leading-[0.9] text-[clamp(2.6rem,9vw,6.5rem)] tracking-tight text-ink">
+            <TechText text="ABHIRAFFA HAMIZAN" />
+          </h1>
         </a>
 
         <div className="flex flex-wrap gap-3 mt-9">

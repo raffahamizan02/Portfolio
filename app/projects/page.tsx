@@ -3,8 +3,9 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import ProjectGrid from "@/components/ProjectGrid";
-import { profile } from "@/lib/data";
+import ProjectCard from "@/components/ProjectCard";
+import { profile, projects } from "@/lib/data";
+import SectionHeading from "@/components/SectionHeading";
 
 export const metadata: Metadata = {
   title: `All Projects — ${profile.name}`,
@@ -16,6 +17,7 @@ export default function ProjectsPage() {
   return (
     <>
       <Navbar />
+
       <main id="main">
         <div className="max-w-content mx-auto px-7 pt-10">
           <Link
@@ -26,8 +28,25 @@ export default function ProjectsPage() {
             Back to home
           </Link>
         </div>
-        <ProjectGrid />
+
+        <section className="py-16">
+          <div className="max-w-content mx-auto px-7">
+            <SectionHeading
+              title="All Projects"
+            />
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
+              {projects.map((project) => (
+                <ProjectCard
+                  key={project.slug}
+                  project={project}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
       </main>
+
       <Footer />
     </>
   );

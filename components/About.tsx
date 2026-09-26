@@ -5,8 +5,8 @@ import SectionHeading from "./SectionHeading";
 export default function About() {
   return (
     <section id="about" className="py-24 border-t border-hairline">
-      <SectionHeading 
-      title="About"
+      <SectionHeading
+        title="About"
       />
       <div className="max-w-content mx-auto px-7 grid md:grid-cols-2 gap-12 md:gap-16">
         <Reveal>
@@ -18,7 +18,7 @@ export default function About() {
             ))}
           </div>
         </Reveal>
-        <Reveal delay={0.1} className="mt-8 flex flex-col gap-10">
+        <Reveal delay={0.1} className="mt-7.5 flex flex-col gap-10">
           {highlights.map((h, i) => (
             <div
               key={h.title}
