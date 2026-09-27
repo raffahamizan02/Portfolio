@@ -1,52 +1,78 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import ProjectCard from "@/components/ProjectCard";
 import { profile, projects } from "@/lib/data";
-import SectionHeading from "@/components/SectionHeading";
 
 export const metadata: Metadata = {
-  title: `All Projects — ${profile.name}`,
-  description:
-    "Every project by Muhammad Abhiraffa Hamizan — a Software Engineering student building backend systems, APIs, and databases.",
+  title: "Projects — " + profile.name,
+  description: "Selected projects by Muhammad Abhiraffa Hamizan.",
 };
 
 export default function ProjectsPage() {
   return (
     <>
       <Navbar />
-
       <main id="main">
-        <div className="max-w-content mx-auto px-7 pt-10">
-          <Link
-            href="/#projects"
-            className="inline-flex items-center gap-2 text-[0.9rem] text-muted hover:text-accent"
-          >
-            <ArrowLeft size={15} />
-            Back to home
-          </Link>
-        </div>
+        <section className="pt-32 pb-24 md:pt-40 md:pb-32">
+          <div className="portfolio-shell">
+            <Link
+              href="/"
+              className="interactive-underline inline-flex items-center gap-2 pb-1 font-mono text-[11px] uppercase tracking-[0.08em] text-text-secondary"
+            >
+              <ArrowLeft size={13} />
+              Back home
+            </Link>
 
-        <section className="py-16">
-          <div className="max-w-content mx-auto px-7">
-            <SectionHeading
-              title="All Projects"
-            />
+            <div className="mt-14">
+              <div className="mono-label text-red">02 / Projects</div>
+              <h1 className="display-title mt-5 max-w-[8ch] text-[clamp(56px,8vw,112px)]">
+                ALL WORK.
+              </h1>
+              <p className="mt-7 max-w-[52ch] text-[clamp(18px,2vw,23px)] leading-[1.4] text-text-secondary">
+                A closer look at projects I have built, explored, and contributed to.
+              </p>
+            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
-              {projects.map((project) => (
-                <ProjectCard
+            <div className="mt-20 divide-y divide-line border-y border-line">
+              {projects.map((project, index) => (
+                <Link
                   key={project.slug}
-                  project={project}
-                />
+                  href={"/projects/" + project.slug}
+                  className="group grid gap-6 py-8 transition-colors md:grid-cols-[80px_1fr_auto]"
+                >
+                  <div className="mono-label text-text-tertiary">
+                    {String(index + 1).padStart(2, "0")}
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-4">
+                      <h2 className="font-display text-3xl font-medium tracking-[-0.03em] transition-colors group-hover:text-red">
+                        {project.title}
+                      </h2>
+                      <ArrowUpRight
+                        size={18}
+                        className="text-text-tertiary transition-colors group-hover:text-red"
+                      />
+                    </div>
+                    <p className="mt-3 max-w-[60ch] leading-[1.65] text-text-secondary">
+                      {project.description}
+                    </p>
+                    <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 font-mono text-[11px] uppercase tracking-[0.08em] text-text-tertiary">
+                      {project.technologies.map((tech) => (
+                        <span key={tech}>{tech}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="mono-label text-text-tertiary md:pt-1">
+                    {project.year}
+                  </div>
+                </Link>
               ))}
             </div>
           </div>
         </section>
       </main>
-
       <Footer />
     </>
   );

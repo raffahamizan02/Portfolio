@@ -1,46 +1,115 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import Image from "next/image";
+import { motion, useReducedMotion } from "framer-motion";
 import Button from "./Button";
-import HeroVisual from "./HeroVisual";
-import TerminalLine from "./TerminalLine";
+import { profile } from "@/lib/data";
 
 export default function Hero() {
-  const rootRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const els = rootRef.current?.querySelectorAll<HTMLElement>(".reveal");
-    els?.forEach((el, i) => {
-      setTimeout(() => el.classList.add("in"), 90 * i + 60);
-    });
-  }, []);
+  const reduceMotion = useReducedMotion();
 
   return (
-    <section id="top" className="pt-[76px] pb-24" ref={rootRef}>
-      <div className="max-w-content mx-auto px-7 grid md:grid-cols-[1.15fr_0.85fr] gap-12 md:gap-16 items-center">
-        <div>
-          <div className="reveal">
-            <TerminalLine />
+    <section
+      id="top"
+      className="min-h-[100svh] scroll-mt-20"
+      aria-labelledby="hero-title"
+    >
+      <div className="portfolio-shell flex min-h-[100svh] flex-col justify-center pb-14 pt-28 lg:pt-24">
+        <div className="grid-12 items-end gap-y-10">
+          <div className="col-span-12 lg:col-span-7">
+            <motion.div
+              initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.7,
+                ease: [0.22, 1, 0.36, 1],
+                delay: 0.12,
+              }}
+            >
+              <div className="mono-label mb-6 text-text-secondary">
+                <span className="mr-2 text-red">●</span>
+                Available to learn, build & collaborate
+              </div>
+
+              <h1
+                id="hero-title"
+                className="display-title max-w-[8ch] text-[clamp(56px,8vw,112px)]"
+              >
+                {profile.displayName}
+              </h1>
+
+              <div className="mt-8 flex flex-wrap items-center gap-x-4 gap-y-2">
+                <span className="font-display text-[18px] font-medium text-white md:text-[20px]">
+                  {profile.title}
+                </span>
+                <span className="h-px w-8 bg-red" aria-hidden="true" />
+                <span className="mono-label text-text-secondary">
+                  {profile.tagline}
+                </span>
+              </div>
+
+              <p className="mt-8 max-w-[42ch] text-[clamp(20px,2.2vw,28px)] leading-[1.15] tracking-[-0.025em] text-white">
+                I build backend systems that turn ideas into reliable, usable software.
+              </p>
+
+              <p className="mt-6 max-w-[36ch] text-[16px] italic leading-[1.6] text-text-secondary">
+                “{profile.quote}”
+              </p>
+
+              <div className="mt-9 flex flex-wrap gap-3">
+                <Button href="/#projects">View projects</Button>
+                <Button href="/contact" variant="secondary">
+                  Let’s connect
+                </Button>
+              </div>
+            </motion.div>
           </div>
 
-          <h1 className="reveal mt-6 font-display font-semibold text-[clamp(2.3rem,5vw,3.6rem)] leading-[1.12] max-w-[15ch]">
-            Muhammad{" "}
-            <span className="text-accent">Abhiraffa Hamizan</span>
-          </h1>
+          <motion.div
+            initial={
+              reduceMotion
+                ? { opacity: 1 }
+                : { opacity: 0, y: 24, scale: 0.98 }
+            }
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{
+              duration: 0.8,
+              ease: [0.22, 1, 0.36, 1],
+              delay: 0.22,
+            }}
+            className="col-span-12 lg:col-span-5"
+          >
+            <div className="hero-image-wrap relative ml-auto w-full max-w-[520px] lg:pl-6">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-card border border-line">
+                <Image
+                  src="/projects/profile.jpg"
+                  alt="Portrait of Muhammad Abhiraffa Hamizan"
+                  fill
+                  priority
+                  sizes="(max-width: 1023px) 90vw, 40vw"
+                  className="hero-image object-cover grayscale-[0.15]"
+                />
+              </div>
 
-          <p className="reveal mt-5 text-[1.05rem] text-muted max-w-[42ch] leading-[1.6]">
-            BackEnd Developer
-          </p>
-
-          <div className="reveal flex gap-4 flex-wrap mt-8">
-            <Button href="#projects">View my projects</Button>
-            <Button href="#contact" variant="ghost">
-              Contact me
-            </Button>
-          </div>
+              <div className="absolute -bottom-5 left-5 flex items-center gap-3 bg-black pr-3">
+                <span className="mono-label text-text-secondary">
+                  Profile / 01
+                </span>
+                <span className="h-px w-8 bg-red" aria-hidden="true" />
+              </div>
+            </div>
+          </motion.div>
         </div>
 
-        <HeroVisual />
+        <div className="mt-auto flex items-end justify-between gap-6 pt-16">
+          <div className="mono-label text-text-tertiary">
+            Scroll to explore <span className="text-white">↓</span>
+          </div>
+          <div className="hidden text-right sm:block">
+            <div className="mono-label text-text-tertiary">Malang / ID</div>
+            <div className="mono-label mt-1 text-text-tertiary">2026</div>
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -2,92 +2,85 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { navLinks } from "@/lib/data";
-import ThemeToggle from "./ThemeToggle";
-import MobileTabBar from "./MobileTabBar";
 import PillNav from "./PillNav";
+import StaggeredMenu from "./StaggeredMenu";
+import { navLinks } from "@/lib/data";
+
+const desktopLinks = [
+  { href: "/#top", label: "Home" },
+  { href: "/#skills", label: "Skills" },
+  { href: "/#projects", label: "Projects" },
+  { href: "/#journey", label: "Journey" },
+];
 
 export default function Navbar() {
-  const [active, setActive] =
-    useState("");
-
-  const pathname =
-    usePathname();
-
-  const isHome =
-    pathname === "/";
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const [activeHref, setActiveHref] = useState("/#top");
 
   useEffect(() => {
     if (!isHome) return;
 
-    const sections = navLinks
-      .map((link) =>
-        document.querySelector(
-          link.href
-        )
-      )
-      .filter(Boolean) as Element[];
+    const sections = desktopLinks
+      .map((link) => link.href.replace("/#", ""))
+      .map((id) => document.getElementById(id))
+      .filter(Boolean) as HTMLElement[];
 
-    const observer =
-      new IntersectionObserver(
-        (entries) => {
-          entries.forEach(
-            (entry) => {
-              if (
-                entry.isIntersecting
-              ) {
-                setActive(
-                  `#${entry.target.id}`
-                );
-              }
-            }
-          );
-        },
-        {
-          rootMargin:
-            "-40% 0px -55% 0px",
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+        if (visible) {
+          setActiveHref("/#" + visible.target.id);
         }
-      );
-
-    sections.forEach(
-      (section) =>
-        observer.observe(section)
+      },
+      {
+        rootMargin: "-35% 0px -55% 0px",
+        threshold: [0.1, 0.3, 0.6],
+      }
     );
 
-    return () =>
-      observer.disconnect();
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
   }, [isHome]);
 
   return (
-    <>
-      {/* Desktop */}
-      <header className="hidden md:block fixed top-4 inset-x-0 z-50 pointer-events-none">
-        <div className="max-w-content mx-auto px-7">
-          <div className="relative flex items-center justify-center">
-            <div className="pointer-events-auto">
-              <PillNav
-                items={navLinks}
-                activeHref={
-                  isHome
-                    ? active
-                    : undefined
-                }
-              />
-            </div>
+    <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 md:px-6">
+      <div className="mx-auto flex max-w-[1400px] items-start justify-between gap-3">
+        <a
+          href="/#top"
+          className="hidden h-12 items-center rounded-pill border border-line bg-black px-4 font-mono text-[12px] uppercase tracking-[0.08em] md:inline-flex"
+          aria-label="Abhiraffa home"
+        >
+          <span className="mr-2 text-red">●</span>
+          AH
+        </a>
 
-            <div className="absolute right-7 pointer-events-auto">
-              <ThemeToggle />
-            </div>
-          </div>
+        <div className="hidden md:block">
+          <PillNav
+            items={desktopLinks}
+            activeHref={isHome ? activeHref : undefined}
+            baseColor="var(--black)"
+            pillColor="var(--white)"
+            hoveredPillTextColor="var(--white)"
+            pillTextColor="var(--black)"
+            ease="power3.out"
+          />
         </div>
-      </header>
 
-      {/* Mobile */}
-      <MobileTabBar />
+        <a
+          href="/contact"
+          className="hidden h-12 items-center rounded-pill border border-line bg-black px-5 font-mono text-[12px] uppercase tracking-[0.08em] transition-colors duration-200 hover:border-red hover:text-red md:inline-flex"
+        >
+          Contact ↗
+        </a>
 
-      <div className="md:hidden fixed top-4 right-4 z-50">
-        <ThemeToggle />
+        <div className="md:hidden">
+          <StaggeredMenu items={navLinks.concat([{ href: "/contact", label: "Contact" }])} />
+        </div>
       </div>
-    </>
+    </header>
   );
 }

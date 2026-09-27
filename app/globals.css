@@ -3,35 +3,21 @@
 @tailwind utilities;
 
 :root {
-  --bg: #ffffff;
-  --bg-raised: #f7f4f3;
-  --ink: #1a1a1a;
-  --muted: #6b6b6b;
-  --hairline: #e8e1e0;
-  --accent: #a8394a;
-  --accent-strong: #7c2635;
-  --accent-tint: #f3e3e4;
-  --gold: #b8944a;
-  --brand: #c8102e;
-  --brand-strong: #9c0d24;
-  --focus: #b8944a;
-  color-scheme: light;
-}
+  --black: #000000;
+  --white: #ffffff;
+  --text-primary: #ffffff;
+  --text-secondary: #8a8a8a;
+  --text-tertiary: #5c5c5c;
+  --line: rgba(255, 255, 255, 0.14);
+  --line-strong: rgba(255, 255, 255, 0.26);
+  --red: #ff3030;
+  --red-hover: #ff4545;
+  --red-soft: rgba(255, 48, 48, 0.14);
 
-.dark {
-  --bg: #1a1a1a;
-  --bg-raised: #232323;
-  --ink: #ececea;
-  --muted: #a6a2a0;
-  --hairline: #333131;
-  --accent: #c9525f;
-  --accent-strong: #e1848c;
-  --accent-tint: #3a2224;
-  --gold: #d4b463;
-  --brand: #c8102e;
-  --brand-strong: #e2374e;
-  --focus: #d4b463;
-  color-scheme: dark;
+  --content-width: 1280px;
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-snappy: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-exit: cubic-bezier(0.76, 0, 0.24, 1);
 }
 
 * {
@@ -40,151 +26,155 @@
 
 html {
   scroll-behavior: smooth;
+  background: #000000;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  background: #000000;
+  color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--red);
+  color: #ffffff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 4px;
+}
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.portfolio-shell {
+  width: min(100% - 40px, var(--content-width));
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  .portfolio-shell {
+    width: min(100% - 64px, var(--content-width));
+  }
+}
+
+@media (min-width: 1280px) {
+  .portfolio-shell {
+    width: min(100% - 96px, var(--content-width));
+  }
+}
+
+.section-space {
+  padding-block: 96px;
+}
+
+@media (min-width: 768px) {
+  .section-space {
+    padding-block: 120px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .section-space {
+    padding-block: 160px;
+  }
+}
+
+.grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 24px;
+}
+
+@media (max-width: 1023px) {
+  .grid-12 {
+    column-gap: 16px;
+  }
+}
+
+.section-rule {
+  border-top: 1px solid var(--line);
+}
+
+.mono-label {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.body-copy {
+  color: var(--text-secondary);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@media (min-width: 768px) {
+  .body-copy {
+    font-size: 18px;
+  }
+}
+
+.display-title {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.055em;
+  line-height: 0.9;
+}
+
+.interactive-underline {
+  position: relative;
+}
+
+.interactive-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 1px;
+  transform: scaleX(0);
+  transform-origin: right;
+  background: var(--red);
+  transition: transform 220ms var(--ease-standard);
+}
+
+.interactive-underline:hover::after,
+.interactive-underline:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.hero-image {
+  transition: transform 700ms var(--ease-standard);
+}
+
+.hero-image-wrap:hover .hero-image {
+  transform: scale(1.02);
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
+
   *,
   *::before,
   *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
   }
-}
 
-body {
-  background: var(--bg);
-  color: var(--ink);
-  -webkit-font-smoothing: antialiased;
-  transition: background-color 0.25s ease, color 0.25s ease;
-}
-
-@media (max-width: 767px) {
-  body {
-    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px));
-  }
-}
-
-::selection {
-  background: var(--accent-tint);
-  color: var(--accent-strong);
-}
-
-:focus-visible {
-  outline: 2px solid var(--focus);
-  outline-offset: 3px;
-}
-
-.reveal {
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.reveal.in {
-  opacity: 1;
-  transform: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .reveal {
-    opacity: 1;
-    transform: none;
+  .hero-image {
     transition: none;
-  }
-}
-
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-.animate-marquee {
-  animation: marquee 24s linear infinite;
-}
-
-.marquee-track:hover {
-  animation-play-state: paused;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .animate-marquee {
-    animation: none;
-  }
-}
-
-@keyframes glitch-jitter {
-  0%, 100% { transform: translate(0, 0); }
-  20% { transform: translate(-2px, 1px); }
-  40% { transform: translate(2px, -1px); }
-  60% { transform: translate(-1px, -2px); }
-  80% { transform: translate(1px, 2px); }
-}
-
-.glitch-jitter {
-  animation: glitch-jitter 0.25s steps(2) infinite;
-}
-
-@keyframes marquee-reverse {
-  from { transform: translateX(-50%); }
-  to { transform: translateX(0); }
-}
-
-.animate-marquee-reverse {
-  animation: marquee-reverse 22s linear infinite;
-}
-
-.marquee-track-reverse:hover {
-  animation-play-state: paused;
-}
-
-/* Skill brand hover effect */
-.skill-item {
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
-}
-
-.skill-item .skill-icon-box {
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.skill-item .skill-icon {
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.skill-item .skill-label {
-  transition: color 0.25s ease, font-weight 0.25s ease;
-}
-
-.skill-item:hover .skill-icon {
-  color: var(--brand-color) !important;
-  filter: drop-shadow(0 0 10px var(--brand-glow));
-  transform: scale(1.12);
-}
-
-.skill-item:hover .skill-icon-box {
-  background-color: var(--brand-bg) !important;
-  border-color: var(--brand-border) !important;
-  box-shadow: 0 8px 24px var(--brand-glow);
-}
-
-.skill-item:hover .skill-label {
-  color: var(--brand-color) !important;
-  font-weight: 600;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .glitch-jitter {
-    animation: none;
-  }
-  .animate-marquee-reverse {
-    animation: none;
   }
 }

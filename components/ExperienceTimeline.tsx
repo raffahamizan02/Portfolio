@@ -2,7 +2,6 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import SectionHeading from "./SectionHeading";
 import Reveal from "./Reveal";
 import { journey } from "@/lib/data";
 
@@ -12,50 +11,58 @@ export default function ExperienceTimeline() {
     target: containerRef,
     offset: ["start 80%", "end 65%"],
   });
-  const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const lineScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
-    <section id="journey" className="py-24 border-t border-hairline">
-      <div className="max-w-content mx-auto px-7">
+    <section id="journey" className="section-space section-rule scroll-mt-20">
+      <div className="portfolio-shell">
         <Reveal>
-          <SectionHeading
-            title="Journey"
-          />
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <div className="mono-label text-red">03 / Journey</div>
+              <h2 className="mt-4 font-display text-[clamp(36px,5vw,56px)] font-medium leading-none tracking-[-0.04em]">
+                FROM SCHOOL TO SOFTWARE
+              </h2>
+            </div>
+            <p className="body-copy max-w-[34ch]">
+              Education, competition, and the experiences shaping how I approach engineering problems.
+            </p>
+          </div>
         </Reveal>
 
-        <div ref={containerRef} className="relative flex flex-col">
-          <div
-            aria-hidden="true"
-            className="hidden md:block absolute left-[160px] top-2 bottom-2 w-px bg-hairline"
-          />
-          <motion.div
-            aria-hidden="true"
-            className="hidden md:block absolute left-[160px] top-2 w-px bg-accent origin-top"
-            style={{ height: lineHeight }}
-          />
+        <div ref={containerRef} className="relative mt-16">
+          <div className="absolute left-[110px] top-0 hidden h-full w-px bg-line md:block">
+            <motion.div
+              className="h-full w-px origin-top bg-red"
+              style={{ scaleY: lineScale }}
+            />
+          </div>
 
-          {journey.map((item, i) => (
-            <Reveal
-              key={i}
-              delay={i * 0.08}
-              className="grid grid-cols-[20px_1fr] md:grid-cols-[160px_1px_1fr] gap-0 relative"
-            >
-              <div className="hidden md:block font-mono text-[0.85rem] text-muted py-7 pr-6">
-                {item.when}
-              </div>
-              <div className="bg-hairline md:bg-transparent relative row-span-2 md:row-span-1">
-                <div className="absolute top-[34px] left-1/2 -translate-x-1/2 w-[9px] h-[9px] rounded-full bg-bg border-2 border-accent z-10" />
-              </div>
-              <div className="col-start-2 md:col-start-3 py-6 pl-8">
-                <span className="md:hidden font-mono text-[0.8rem] text-muted block mb-1">
-                  {item.when}
-                </span>
-                <h3 className="font-display font-semibold text-[1.06rem]">{item.title}</h3>
-                <span className="text-accent text-[0.9rem] mt-1 block">{item.org}</span>
-                <p className="text-muted mt-3 text-[0.95rem] leading-[1.65]">{item.body}</p>
-              </div>
-            </Reveal>
-          ))}
+          <div>
+            {journey.map((item, index) => (
+              <Reveal key={item.when} delay={index * 0.08}>
+                <article className="grid gap-5 border-t border-line py-8 md:grid-cols-[110px_1px_1fr] md:gap-0">
+                  <div className="mono-label text-text-tertiary md:pr-6">
+                    {item.when}
+                  </div>
+
+                  <div className="relative hidden md:block">
+                    <span className="absolute left-1/2 top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border border-red bg-black" />
+                  </div>
+
+                  <div className="md:pl-8">
+                    <h3 className="font-display text-2xl font-medium tracking-[-0.03em]">
+                      {item.title}
+                    </h3>
+                    <div className="mt-1 text-[15px] text-red">{item.org}</div>
+                    <p className="mt-3 max-w-[60ch] leading-[1.65] text-text-secondary">
+                      {item.body}
+                    </p>
+                  </div>
+                </article>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </div>
     </section>

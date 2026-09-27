@@ -1,73 +1,83 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
-import {
-  FaGithub,
-  FaLinkedin,
-  FaInstagram,
-  FaDiscord,
-} from "react-icons/fa6";
+import { FaDiscord, FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa6";
 import { ArrowUp } from "lucide-react";
 import { profile } from "@/lib/data";
 import TechText from "./TechText";
 
 const socials = [
-  { icon: FaGithub, href: profile.github, label: "GitHub", pending: false },
-  { icon: FaLinkedin, href: profile.linkedin, label: "LinkedIn", pending: false },
-  { icon: FaInstagram, href: profile.instagram, label: "Instagram", pending: false },
-  { icon: FaDiscord, href: profile.discord, label: "Discord", pending: false },
+  { label: "GitHub", href: profile.github, icon: FaGithub },
+  { label: "LinkedIn", href: profile.linkedin, icon: FaLinkedin },
+  { label: "Instagram", href: profile.instagram, icon: FaInstagram },
+  { label: "Discord", href: profile.discord, icon: FaDiscord },
 ];
 
 export default function Footer() {
-  const pathname = usePathname();
-  const isHome = pathname === "/";
-  const hrefFor = (hash: string) => (isHome ? hash : `/${hash}`);
-
   return (
-    <footer className="pt-20 pb-8 border-t border-hairline">
-      <div className="max-w-content mx-auto px-7">
-        <a href={hrefFor("#top")} className="flex mx-auto no-underline w-fit">
-          <h1 className="scale-x-[1.15] origin-center font-display font-semibold uppercase leading-[0.9] text-[clamp(2.6rem,9vw,6.5rem)] tracking-tight text-ink">
-            <TechText text="ABHIRAFFA HAMIZAN" />
-          </h1>
-        </a>
+    <footer className="section-rule pt-24 pb-8 md:pt-32">
+      <div className="portfolio-shell">
+        <div className="grid-12 gap-y-10">
+          <div className="col-span-12 md:col-span-4">
+            <div className="mono-label text-red">Let’s connect</div>
+            <p className="mt-4 max-w-[26ch] leading-[1.6] text-text-secondary">
+              Open to learning, building, and conversations around backend development.
+            </p>
+          </div>
 
-        <div className="flex flex-wrap gap-3 mt-9 justify-center">
-          {socials.map((s) => {
-            const Icon = s.icon;
-            const isExternal = s.href.startsWith("http") || s.href.startsWith("mailto:");
-            return (
+          <div className="col-span-12 flex flex-wrap gap-x-7 gap-y-4 md:col-span-8 md:justify-end">
+            {socials.map(({ label, href, icon: Icon }) => (
               <a
-                key={s.label}
-                href={s.href}
-                target={isExternal ? "_blank" : undefined}
-                rel={isExternal ? "noopener noreferrer" : undefined}
-                aria-label={s.pending ? `${s.label} (coming soon)` : s.label}
-                title={s.pending ? `${s.label} — coming soon` : s.label}
-                className={`w-11 h-11 rounded-full border grid place-items-center transition-colors ${s.pending
-                  ? "border-hairline text-muted/60 cursor-default"
-                  : "border-hairline text-ink hover:border-accent hover:text-accent"
-                  }`}
-                onClick={s.pending ? (e) => e.preventDefault() : undefined}
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="interactive-underline flex items-center gap-2 pb-1 font-mono text-[12px] uppercase tracking-[0.08em] text-white transition-colors hover:text-red"
               >
-                <Icon size={17} />
+                <Icon size={15} />
+                {label} ↗
               </a>
-            );
-          })}
+            ))}
+            <a
+              href={"mailto:" + profile.email}
+              className="interactive-underline flex items-center gap-2 pb-1 font-mono text-[12px] uppercase tracking-[0.08em] text-white transition-colors hover:text-red"
+            >
+              Email ↗
+            </a>
+          </div>
         </div>
 
-        <div className="flex justify-between items-center gap-5 flex-wrap mt-14 pt-6 border-t border-hairline text-[0.82rem] text-muted">
-          <span>
+        <a href="/#top" className="group mt-24 block">
+          <div aria-hidden="true" className="overflow-hidden">
+            <TechText
+              text={profile.displayName}
+              color="#FFFFFF"
+              accentColor="#FF3030"
+              reveal="letter"
+              reach={180}
+              selection
+              labels={false}
+              draggable={false}
+              sweep
+              speed={0.65}
+            />
+          </div>
+        </a>
+
+        <div className="mt-16 flex flex-col gap-5 border-t border-line pt-5 text-text-tertiary sm:flex-row sm:items-center sm:justify-between">
+          <p className="mono-label">
             © {new Date().getFullYear()} {profile.name}. All rights reserved.
-          </span>
-          <button
-            aria-label="Back to top"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="border border-hairline rounded-full w-[38px] h-[38px] grid place-items-center hover:border-accent hover:text-accent transition-colors"
+          </p>
+
+          <a
+            href="/#top"
+            className="group inline-flex w-fit items-center gap-2 font-mono text-[11px] uppercase tracking-[0.08em] transition-colors hover:text-red"
           >
-            <ArrowUp size={15} />
-          </button>
+            Back to top
+            <ArrowUp
+              size={14}
+              className="transition-transform duration-200 group-hover:-translate-y-1"
+            />
+          </a>
         </div>
       </div>
     </footer>

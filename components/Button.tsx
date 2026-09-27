@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import { ReactNode } from "react";
+import { ArrowUpRight } from "lucide-react";
+import type { ReactNode } from "react";
 
 type ButtonProps = {
   href: string;
   children: ReactNode;
-  variant?: "primary" | "ghost";
+  variant?: "primary" | "secondary";
   external?: boolean;
   className?: string;
 };
@@ -20,40 +20,38 @@ export default function Button({
   external = false,
   className = "",
 }: ButtonProps) {
-  const base =
-    "group inline-flex items-center gap-2 rounded-s px-5 py-[11px] text-sm font-semibold transition-colors duration-200";
-  const styles =
+  const classes =
     variant === "primary"
-      ? "bg-brand text-white hover:bg-brand-strong"
-      : "bg-transparent text-ink border border-hairline hover:border-ink";
+      ? "border border-white bg-white text-black hover:border-red hover:bg-red hover:text-white"
+      : "border border-line bg-transparent text-white hover:border-red hover:text-red";
 
   const content = (
     <>
-      {children}
-      <ArrowRight
+      <span>{children}</span>
+      <ArrowUpRight
         size={15}
-        className="transition-transform duration-200 group-hover:translate-x-1"
+        strokeWidth={1.8}
+        className="transition-transform duration-200 ease-[var(--ease-standard)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
       />
     </>
   );
 
+  const shared =
+    "group inline-flex min-h-12 items-center gap-3 rounded-pill px-[22px] font-mono text-[12px] uppercase tracking-[0.08em] transition-[background-color,border-color,color,transform] duration-200 hover:-translate-y-0.5 active:translate-y-0 focus-visible:outline-2 focus-visible:outline-red focus-visible:outline-offset-4";
+
   return (
-    <motion.span
-      whileHover={{ scale: 1.03 }}
-      whileTap={{ scale: 0.97 }}
-      className="inline-flex"
-    >
+    <motion.span whileTap={{ scale: 0.98 }} className="inline-flex">
       {external ? (
         <a
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className={`${base} ${styles} ${className}`}
+          className={shared + " " + classes + " " + className}
         >
           {content}
         </a>
       ) : (
-        <Link href={href} className={`${base} ${styles} ${className}`}>
+        <Link href={href} className={shared + " " + classes + " " + className}>
           {content}
         </Link>
       )}
