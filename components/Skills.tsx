@@ -12,10 +12,11 @@ import {
 } from "react-icons/si";
 import { FaJava } from "react-icons/fa6";
 import { LogoLoop } from "./LogoLoop";
+import type { ReactNode } from "react";
 import Reveal from "./Reveal";
 import { skills } from "@/lib/data";
 
-const iconMap: Record<string, React.ReactNode> = {
+const iconMap: Record<string, ReactNode> = {
   PHP: <SiPhp />,
   Java: <FaJava />,
   JS: <SiJavascript />,
