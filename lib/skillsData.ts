@@ -23,16 +23,12 @@ import {
   SiPostman,
 } from "react-icons/si";
 
-export type SkillCategory = "Languages" | "Backend" | "Frontend" | "Databases" | "Tools";
-
 export type SkillItem = {
   name: string;
   label: string;
   icon: IconType;
   color: string;
   url: string;
-  category: SkillCategory;
-  description: string;
 };
 
 export const rowOne: SkillItem[] = [
@@ -42,8 +38,6 @@ export const rowOne: SkillItem[] = [
     icon: SiJavascript,
     color: "#F7DF1E",
     url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
-    category: "Languages",
-    description: "Versatile, dynamic scripting language powering modern interactive web applications.",
   },
   {
     name: "typescript",
@@ -51,8 +45,6 @@ export const rowOne: SkillItem[] = [
     icon: SiTypescript,
     color: "#3178C6",
     url: "https://www.typescriptlang.org/",
-    category: "Languages",
-    description: "Typed superset of JavaScript providing static types and enhanced tooling.",
   },
   {
     name: "python",
@@ -60,8 +52,6 @@ export const rowOne: SkillItem[] = [
     icon: SiPython,
     color: "#3776AB",
     url: "https://www.python.org/",
-    category: "Languages",
-    description: "High-level language known for clean syntax, scripting, and backend development.",
   },
   {
     name: "java",
@@ -69,8 +59,6 @@ export const rowOne: SkillItem[] = [
     icon: FaJava,
     color: "#EA2D2E",
     url: "https://dev.java/",
-    category: "Languages",
-    description: "Robust, object-oriented language engineered for cross-platform reliability.",
   },
   {
     name: "php",
@@ -78,26 +66,6 @@ export const rowOne: SkillItem[] = [
     icon: SiPhp,
     color: "#777BB4",
     url: "https://www.php.net/",
-    category: "Languages",
-    description: "Popular server-side scripting language driving modern web platforms.",
-  },
-  {
-    name: "nodejs",
-    label: "Node.js",
-    icon: SiNodedotjs,
-    color: "#5FA04E",
-    url: "https://nodejs.org/",
-    category: "Backend",
-    description: "Asynchronous, event-driven JavaScript runtime for server-side architecture.",
-  },
-  {
-    name: "express",
-    label: "Express",
-    icon: SiExpress,
-    color: "#9E9E9E",
-    url: "https://expressjs.com/",
-    category: "Backend",
-    description: "Minimalist, unopinionated web and API framework for Node.js applications.",
   },
   {
     name: "laravel",
@@ -105,8 +73,6 @@ export const rowOne: SkillItem[] = [
     icon: SiLaravel,
     color: "#FF2D20",
     url: "https://laravel.com/",
-    category: "Backend",
-    description: "Elegant PHP web application framework with rich ecosystem and expressive syntax.",
   },
   {
     name: "mysql",
@@ -114,8 +80,6 @@ export const rowOne: SkillItem[] = [
     icon: SiMysql,
     color: "#4479A1",
     url: "https://www.mysql.com/",
-    category: "Databases",
-    description: "Industry-standard open-source relational database management system.",
   },
   {
     name: "mongodb",
@@ -123,29 +87,13 @@ export const rowOne: SkillItem[] = [
     icon: SiMongodb,
     color: "#47A248",
     url: "https://www.mongodb.com/",
-    category: "Databases",
-    description: "Document-based NoSQL database optimized for developer productivity and scale.",
   },
-  {
-    name: "sqlite",
-    label: "SQLite",
-    icon: SiSqlite,
-    color: "#00A3E0",
-    url: "https://www.sqlite.org/",
-    category: "Databases",
-    description: "Lightweight, self-contained serverless SQL database engine.",
-  },
-];
-
-export const rowTwo: SkillItem[] = [
   {
     name: "react",
     label: "React",
     icon: SiReact,
     color: "#61DAFB",
     url: "https://react.dev/",
-    category: "Frontend",
-    description: "Component-driven JavaScript library for crafting reactive web interfaces.",
   },
   {
     name: "nextjs",
@@ -153,17 +101,6 @@ export const rowTwo: SkillItem[] = [
     icon: SiNextdotjs,
     color: "#0070F3",
     url: "https://nextjs.org/",
-    category: "Frontend",
-    description: "Production React framework with hybrid SSR, static generation, and edge routing.",
-  },
-  {
-    name: "vuejs",
-    label: "Vue.js",
-    icon: SiVuedotjs,
-    color: "#4FC08D",
-    url: "https://vuejs.org/",
-    category: "Frontend",
-    description: "Approachable, performant, and versatile progressive framework for UI.",
   },
   {
     name: "tailwindcss",
@@ -171,8 +108,6 @@ export const rowTwo: SkillItem[] = [
     icon: SiTailwindcss,
     color: "#06B6D4",
     url: "https://tailwindcss.com/",
-    category: "Frontend",
-    description: "Utility-first CSS framework for building custom, responsive modern designs rapidly.",
   },
   {
     name: "bootstrap",
@@ -180,8 +115,6 @@ export const rowTwo: SkillItem[] = [
     icon: SiBootstrap,
     color: "#7952B3",
     url: "https://getbootstrap.com/",
-    category: "Frontend",
-    description: "Comprehensive front-end toolkit for quick, responsive layout prototyping.",
   },
   {
     name: "html5",
@@ -189,8 +122,6 @@ export const rowTwo: SkillItem[] = [
     icon: SiHtml5,
     color: "#E34F26",
     url: "https://developer.mozilla.org/en-US/docs/Web/HTML",
-    category: "Frontend",
-    description: "The semantic backbone of the modern web and document structure.",
   },
   {
     name: "css3",
@@ -198,8 +129,6 @@ export const rowTwo: SkillItem[] = [
     icon: SiCss,
     color: "#1572B6",
     url: "https://developer.mozilla.org/en-US/docs/Web/CSS",
-    category: "Frontend",
-    description: "Stylesheet language powering visual design, grid systems, and animations.",
   },
   {
     name: "git",
@@ -207,8 +136,6 @@ export const rowTwo: SkillItem[] = [
     icon: SiGit,
     color: "#F05032",
     url: "https://git-scm.com/",
-    category: "Tools",
-    description: "Fast, distributed version control system for tracking changes in source code.",
   },
   {
     name: "github",
@@ -216,30 +143,9 @@ export const rowTwo: SkillItem[] = [
     icon: FaGithub,
     color: "#A371F7",
     url: "https://github.com/",
-    category: "Tools",
-    description: "Global cloud platform for collaboration, code hosting, and CI/CD automation.",
-  },
-  {
-    name: "postman",
-    label: "Postman",
-    icon: SiPostman,
-    color: "#FF6C37",
-    url: "https://www.postman.com/",
-    category: "Tools",
-    description: "API testing and development platform for building and automating web services.",
-  },
-  {
-    name: "figma",
-    label: "Figma",
-    icon: SiFigma,
-    color: "#F24E1E",
-    url: "https://www.figma.com/",
-    category: "Tools",
-    description: "Industry-standard collaborative interface and prototyping design tool.",
   },
 ];
 
 export const allSkills: SkillItem[] = [
   ...rowOne,
-  ...rowTwo.filter((t) => !rowOne.some((r) => r.name === t.name)),
 ];

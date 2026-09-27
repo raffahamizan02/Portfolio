@@ -28,12 +28,12 @@ export default function Footer() {
     <footer className="pt-20 pb-8 border-t border-hairline">
       <div className="max-w-content mx-auto px-7">
         <a href={hrefFor("#top")} className="flex mx-auto no-underline w-fit">
-          <h1 className="scale-x-[1.5] origin-center font-display font-semibold uppercase leading-[0.9] text-[clamp(2.6rem,9vw,6.5rem)] tracking-tight text-ink">
+          <h1 className="scale-x-[1.15] origin-center font-display font-semibold uppercase leading-[0.9] text-[clamp(2.6rem,9vw,6.5rem)] tracking-tight text-ink">
             <TechText text="ABHIRAFFA HAMIZAN" />
           </h1>
         </a>
 
-        <div className="flex flex-wrap gap-3 mt-9">
+        <div className="flex flex-wrap gap-3 mt-9 justify-center">
           {socials.map((s) => {
             const Icon = s.icon;
             const isExternal = s.href.startsWith("http") || s.href.startsWith("mailto:");

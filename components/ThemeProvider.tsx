@@ -32,9 +32,6 @@ function applyThemeClass(theme: Theme) {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  // The inline script in app/layout.tsx already set the correct class
-  // before hydration, so this initial value just needs to match it —
-  // it's corrected from localStorage a moment later in the effect below.
   const [theme, setThemeState] = useState<Theme>(DEFAULT_THEME);
 
   useEffect(() => {
@@ -69,12 +66,6 @@ export function useTheme() {
   return ctx;
 }
 
-/**
- * Inline script string, injected in app/layout.tsx via
- * dangerouslySetInnerHTML, and run before React hydrates. Reads the same
- * localStorage key as above and adds the "dark" class immediately so the
- * page never flashes the wrong theme on first load.
- */
 export const noFlashThemeScript = `
 (function () {
   try {
