@@ -4,8 +4,7 @@ export const profile = {
   tagline: "Backend developer in training",
   location: "Karangploso, Kabupaten Malang, East Java, Indonesia",
   email: "raplhy02@gmail.com",
-  linkedin:
-    "https://www.linkedin.com/in/muhammad-abhiraffa-hamizan-b1a097438/",
+  linkedin: "https://www.linkedin.com/in/muhammad-abhiraffa-hamizan-b1a097438/",
   github: "https://github.com/raffahamizan02",
   instagram: "https://www.instagram.com/raff_hamiz",
   discord: "https://discord.com/users/rraplhybbums_96320",
@@ -33,13 +32,6 @@ export const highlights = [
     title: "Currently",
     body: "Studying Software Engineering at SMKS PGRI 3 Malang, building projects on the side.",
   },
-];
-
-export const skillGroups = [
-  { title: "Languages", tags: ["PHP", "Java", "JavaScript", "Python"] },
-  { title: "Frameworks", tags: ["Laravel"] },
-  { title: "Databases", tags: ["MySQL", "MongoDB"] },
-  { title: "Tools", tags: ["Git", "GitHub"] },
 ];
 
 export type Project = {

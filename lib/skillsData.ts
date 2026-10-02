@@ -7,20 +7,12 @@ import {
   SiPhp,
   SiReact,
   SiNextdotjs,
-  SiNodedotjs,
-  SiExpress,
   SiLaravel,
-  SiVuedotjs,
   SiTailwindcss,
   SiBootstrap,
-  SiHtml5,
-  SiCss,
   SiMysql,
   SiMongodb,
-  SiSqlite,
   SiGit,
-  SiFigma,
-  SiPostman,
 } from "react-icons/si";
 
 export type SkillItem = {
@@ -117,20 +109,6 @@ export const rowOne: SkillItem[] = [
     url: "https://getbootstrap.com/",
   },
   {
-    name: "html5",
-    label: "HTML5",
-    icon: SiHtml5,
-    color: "#E34F26",
-    url: "https://developer.mozilla.org/en-US/docs/Web/HTML",
-  },
-  {
-    name: "css3",
-    label: "CSS3",
-    icon: SiCss,
-    color: "#1572B6",
-    url: "https://developer.mozilla.org/en-US/docs/Web/CSS",
-  },
-  {
     name: "git",
     label: "Git",
     icon: SiGit,
@@ -144,8 +122,4 @@ export const rowOne: SkillItem[] = [
     color: "#A371F7",
     url: "https://github.com/",
   },
-];
-
-export const allSkills: SkillItem[] = [
-  ...rowOne,
 ];

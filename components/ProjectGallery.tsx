@@ -22,7 +22,7 @@ export default function ProjectGallery() {
         >
             <div className="max-w-content mx-auto px-7">
                 <Reveal>
-                    <SectionHeading title="Selected Work" />
+                    <SectionHeading title="Featured Projects" />
                 </Reveal>
 
                 <Reveal delay={0.08}>
