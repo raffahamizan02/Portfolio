@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { profile } from "@/lib/data";
-import { ThemeProvider, noFlashThemeScript } from "@/components/ThemeProvider";
 import LoadingScreen from "@/components/LoadingScreen";
 
 const spaceGrotesk = Space_Grotesk({
@@ -48,11 +47,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}
-      suppressHydrationWarning
     >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: noFlashThemeScript }} />
-      </head>
       <body className="font-body text-[16px] leading-relaxed">
         <a
           href="#main"
@@ -60,10 +55,9 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <ThemeProvider>
-          <LoadingScreen />
-          {children}
-        </ThemeProvider>
+
+        <LoadingScreen />
+        {children}
       </body>
     </html>
   );

@@ -67,9 +67,8 @@ export default function MobileTabBar() {
                 className={`relative transition-colors ${isActive ? "text-accent" : "text-muted"}`}
               />
               <span
-                className={`relative text-[0.62rem] font-medium transition-colors ${
-                  isActive ? "text-accent" : "text-muted"
-                }`}
+                className={`relative text-[0.62rem] font-medium transition-colors ${isActive ? "text-accent" : "text-muted"
+                  }`}
               >
                 {tab.label}
               </span>

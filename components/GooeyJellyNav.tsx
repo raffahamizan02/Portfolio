@@ -18,19 +18,6 @@ import {
     type MotionValue,
 } from "framer-motion";
 
-/**
- * GooeyJellyNav
- * Gabungan GooeyNav (pill putih + partikel "gooey") dan JellyRadio
- * (item membesar seperti jeli dan mendorong tetangganya dengan pegas).
- *
- * - Item aktif membengkak (swell), item lain menyusut sedikit dan terdorong menjauh.
- * - Pill gooey + teks hitam MENGIKUTI bentuk item yang sedang bergetar,
- *   jadi pill ikut "kenyal" tanpa perlu animasi terpisah.
- * - Klik menu  -> jelly + semburan partikel.
- * - Scroll-spy -> jelly + pill muncul lagi, tanpa partikel (supaya tidak ramai).
- * - Memakai `framer-motion` yang sudah ada di project (tidak perlu paket `motion`).
- */
-
 export interface GooeyJellyNavItem {
     label: ReactNode;
     href: string;
@@ -38,27 +25,22 @@ export interface GooeyJellyNavItem {
 
 export interface GooeyJellyNavProps {
     items: GooeyJellyNavItem[];
-    /** Kontrol dari luar (scroll-spy). Jika kosong, komponen mengurus sendiri. */
     activeIndex?: number;
     initialActiveIndex?: number;
     onChange?: (index: number) => void;
     ariaLabel?: string;
-
-    /* --- Gooey --- */
     animationTime?: number;
     particleCount?: number;
     particleDistances?: [number, number];
     particleR?: number;
     timeVariance?: number;
     colors?: number[];
-
-    /* --- Jelly --- */
-    swell?: number; // seberapa besar item aktif membengkak (0.14 = +14%)
-    barge?: number; // dorongan ekstra (px) ke item tetangga
-    shrink?: number; // seberapa kecil item non-aktif
-    jelly?: number; // intensitas "kenyal" (0 = pegas biasa)
-    bounce?: number; // 0..1, makin besar makin memantul
-    stagger?: number; // jeda (ms) antar item saat merambat
+    swell?: number;
+    barge?: number;
+    shrink?: number;
+    jelly?: number;
+    bounce?: number;
+    stagger?: number;
     stiffness?: number;
     className?: string;
 }
@@ -88,7 +70,6 @@ const spring = (k: number, m: number, bounce: number) => ({
     mass: m,
 });
 
-/** <li> yang transform-nya digerakkan motion value (translateX + scale jelly) */
 const JellyLi = forwardRef<
     HTMLLIElement,
     { mv: ChipValues; className?: string; children: ReactNode }
@@ -132,7 +113,7 @@ const GooeyJellyNav: React.FC<GooeyJellyNavProps> = ({
     const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
     const widths = useRef<number[]>([]);
     const mvs = useRef<ChipValues[]>([]);
-    const burst = useRef(false); // true hanya saat perpindahan berasal dari klik
+    const burst = useRef(false);
     const reduce = useReducedMotion();
 
     const [activeIndex, setActiveIndex] = useState<number>(
@@ -152,8 +133,6 @@ const GooeyJellyNav: React.FC<GooeyJellyNavProps> = ({
         reduce,
         count: items.length,
     };
-
-    /* ---------------- util gooey ---------------- */
 
     const noise = (n = 1) => n / 2 - Math.random() * n;
 
@@ -212,14 +191,12 @@ const GooeyJellyNav: React.FC<GooeyJellyNavProps> = ({
                     try {
                         element.removeChild(particle);
                     } catch {
-                        // sudah terhapus
                     }
                 }, t);
             }, 30);
         }
     };
 
-    /** Pindahkan lapisan efek ke posisi <li> (rect SUDAH termasuk transform jelly) */
     const updateEffectPosition = (element: HTMLElement) => {
         if (!containerRef.current || !filterRef.current || !textRef.current) return;
         const containerRect = containerRef.current.getBoundingClientRect();
@@ -236,7 +213,6 @@ const GooeyJellyNav: React.FC<GooeyJellyNavProps> = ({
         if (textRef.current.innerText !== label) textRef.current.innerText = label;
     };
 
-    /** Munculkan ulang pill putih (animasi "pop") */
     const popPill = () => {
         const f = filterRef.current;
         const t = textRef.current;
@@ -251,8 +227,6 @@ const GooeyJellyNav: React.FC<GooeyJellyNavProps> = ({
             t.classList.add("active");
         }
     };
-
-    /* ---------------- util jelly ---------------- */
 
     const mvFor = (i: number) => {
         let mv = mvs.current[i];
@@ -307,9 +281,6 @@ const GooeyJellyNav: React.FC<GooeyJellyNavProps> = ({
         widths.current = liRefs.current.map((el) => el?.offsetWidth ?? 0);
     };
 
-    /* ---------------- efek ---------------- */
-
-    // Ukur + posisi awal, dan rapikan ulang saat resize / font selesai dimuat
     useLayoutEffect(() => {
         const settle = () => {
             measure();
@@ -326,16 +297,13 @@ const GooeyJellyNav: React.FC<GooeyJellyNavProps> = ({
         if (containerRef.current) observer.observe(containerRef.current);
         document.fonts?.ready.then(settle);
         return () => observer.disconnect();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [items.length, swell, barge, shrink]);
 
-    // Sinkron dengan scroll-spy dari luar
     useEffect(() => {
         if (controlledIndex === undefined) return;
         setActiveIndex(controlledIndex);
     }, [controlledIndex]);
 
-    // Saat item aktif berubah: jelly + pill pop (+ partikel jika dari klik)
     useEffect(() => {
         if (applied.current === activeIndex) return;
         applied.current = activeIndex;
@@ -352,10 +320,8 @@ const GooeyJellyNav: React.FC<GooeyJellyNavProps> = ({
             makeParticles(filterRef.current);
         }
         burst.current = false;
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeIndex]);
 
-    // Selama item aktif bergetar, lapisan efek ikut menyesuaikan bentuknya
     useEffect(() => {
         const li = liRefs.current[activeIndex];
         if (!li) return;
@@ -367,10 +333,8 @@ const GooeyJellyNav: React.FC<GooeyJellyNavProps> = ({
             mv.x.on("change", follow),
         ];
         return () => stops.forEach((stop) => stop());
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeIndex]);
 
-    // Bersihkan motion value saat unmount
     useEffect(
         () => () =>
             mvs.current.forEach((mv) => {
@@ -380,8 +344,6 @@ const GooeyJellyNav: React.FC<GooeyJellyNavProps> = ({
             }),
         []
     );
-
-    /* ---------------- interaksi ---------------- */
 
     const handleClick = (index: number) => {
         if (index === activeIndex) return;
@@ -404,12 +366,11 @@ const GooeyJellyNav: React.FC<GooeyJellyNavProps> = ({
         }
         if (next === null) return;
         e.preventDefault();
-        linkRefs.current[next]?.focus(); // fokus saja; Enter/klik yang berpindah halaman
+        linkRefs.current[next]?.focus();
     };
 
     return (
         <>
-            {/* Semua selector di-scope ke `.gjn` supaya tidak bocor ke bagian situs lain */}
             <style dangerouslySetInnerHTML={{
                 __html: `
           .gjn {

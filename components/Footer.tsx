@@ -1,7 +1,6 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
 import {
   FaGithub,
   FaLinkedin,

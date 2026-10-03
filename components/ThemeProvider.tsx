@@ -2,78 +2,40 @@
 
 import {
   createContext,
-  useCallback,
   useContext,
-  useEffect,
-  useState,
   type ReactNode,
 } from "react";
 
-type Theme = "dark" | "light";
-
 type ThemeContextValue = {
-  theme: Theme;
+  theme: "dark";
   toggleTheme: () => void;
-  setTheme: (theme: Theme) => void;
+  setTheme: (theme: "dark") => void;
 };
 
-const STORAGE_KEY = "portfolio-theme";
-const DEFAULT_THEME: Theme = "dark";
+const ThemeContext = createContext<ThemeContextValue>({
+  theme: "dark",
+  toggleTheme: () => { },
+  setTheme: () => { },
+});
 
-const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
-
-function applyThemeClass(theme: Theme) {
-  const root = document.documentElement;
-  if (theme === "dark") {
-    root.classList.add("dark");
-  } else {
-    root.classList.remove("dark");
-  }
-}
-
-export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>(DEFAULT_THEME);
-
-  useEffect(() => {
-    const stored = window.localStorage.getItem(STORAGE_KEY) as Theme | null;
-    const initial = stored === "light" || stored === "dark" ? stored : DEFAULT_THEME;
-    setThemeState(initial);
-    applyThemeClass(initial);
-  }, []);
-
-  const setTheme = useCallback((next: Theme) => {
-    setThemeState(next);
-    applyThemeClass(next);
-    window.localStorage.setItem(STORAGE_KEY, next);
-  }, []);
-
-  const toggleTheme = useCallback(() => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  }, [theme, setTheme]);
-
+export function ThemeProvider({
+  children,
+}: {
+  children: ReactNode;
+}) {
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
+    <ThemeContext.Provider
+      value={{
+        theme: "dark",
+        toggleTheme: () => { },
+        setTheme: () => { },
+      }}
+    >
       {children}
     </ThemeContext.Provider>
   );
 }
 
 export function useTheme() {
-  const ctx = useContext(ThemeContext);
-  if (!ctx) {
-    throw new Error("useTheme must be used within a ThemeProvider");
-  }
-  return ctx;
+  return useContext(ThemeContext);
 }
-
-export const noFlashThemeScript = `
-(function () {
-  try {
-    var stored = window.localStorage.getItem("${STORAGE_KEY}");
-    var theme = stored === "light" || stored === "dark" ? stored : "${DEFAULT_THEME}";
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-    }
-  } catch (e) {}
-})();
-`;

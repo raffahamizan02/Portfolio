@@ -211,7 +211,6 @@ async function resolveFont(
                 await document.fonts.load(font);
                 await document.fonts.ready;
             } catch {
-                // Ignore and use browser fallback.
             }
         }
 
@@ -244,7 +243,6 @@ async function resolveFont(
                     resolved
                 );
             } catch {
-                // Ignore.
             }
         }
 

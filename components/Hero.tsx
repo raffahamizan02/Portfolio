@@ -4,9 +4,12 @@ import { useEffect, useRef } from "react";
 import Button from "./Button";
 import HeroVisual from "./HeroVisual";
 import TerminalLine from "./TerminalLine";
+import ShapeGrid from "./ShapeGrid";
+import { useTheme } from "./ThemeProvider";
 
 export default function Hero() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const els = rootRef.current?.querySelectorAll<HTMLElement>(".reveal");
@@ -16,8 +19,21 @@ export default function Hero() {
   }, []);
 
   return (
-    <section id="top" className="pt-[76px] pb-24" ref={rootRef}>
-      <div className="max-w-content mx-auto px-7 grid md:grid-cols-[1.15fr_0.85fr] gap-12 md:gap-16 items-center">
+    <section id="top" className="relative pt-[76px] pb-24 overflow-hidden" ref={rootRef}>
+      <div className="absolute inset-0 z-0 pointer-events-auto overflow-hidden opacity-85" aria-hidden="true">
+        <ShapeGrid
+          direction="diagonal"
+          speed={0.35}
+          squareSize={42}
+          shape="square"
+          hoverTrailAmount={4}
+          borderColor={theme === "dark" ? "rgba(255, 255, 255, 0.08)" : "rgba(0, 0, 0, 0.06)"}
+          hoverFillColor={theme === "dark" ? "rgba(201, 82, 95, 0.22)" : "rgba(168, 57, 74, 0.12)"}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[var(--bg)] pointer-events-none" />
+      </div>
+
+      <div className="relative z-10 max-w-content mx-auto px-7 grid md:grid-cols-[1.15fr_0.85fr] gap-12 md:gap-16 items-center">
         <div>
           <div className="reveal">
             <TerminalLine />

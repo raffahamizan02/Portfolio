@@ -4,7 +4,6 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
 
 export interface CircularCarouselItem {
     src: string;
-    /** Gambar alternatif yang di-crossfade saat kartu di-hover (mis. logo berwarna) */
     hoverSrc?: string;
     alt?: string;
     title?: string;
@@ -40,7 +39,6 @@ export interface CircularCarouselProps {
     fadeColor?: string;
     innerShade?: number;
     cornerRadius?: number;
-    /** Tampilkan sisi belakang kartu (cermin). Default mengikuti preset; `false` = hanya sisi depan */
     backfaces?: boolean;
     captions?: boolean;
     onChange?: (index: number) => void;
@@ -260,7 +258,6 @@ const usePrefersReducedMotion = () => {
     return reduced;
 };
 
-/** Perangkat sentuh (tanpa hover): kartu yang sedang di depan yang diberi warna */
 const useNoHover = () => {
     const [noHover, setNoHover] = useState(false);
     useEffect(() => {
@@ -433,7 +430,7 @@ const CircularCarousel = ({
     useEffect(() => {
         let cancelled = false;
         setReady(false);
-        const sources = sourcesKey.split("|").slice(0, 12);
+        const sources = sourcesKey.split("|");
         const load = (src: string) =>
             new Promise<void>(resolve => {
                 const image = new Image();
@@ -668,10 +665,54 @@ const CircularCarousel = ({
                 card.style.transform = transform;
 
                 const world = wrap(base + angle);
+
+                /*
+                 * facing:
+                 *  1  = tepat di depan
+                 *  0  = samping
+                 * -1  = tepat di belakang
+                 */
                 const facing = Math.cos(world * TO_RAD);
-                if (s.layout.inward) card.style.visibility = Math.abs(world) > 86 ? "hidden" : "";
-                const fade = s.depthFade * Math.pow((1 - facing) / 2, 1.25);
-                card.style.setProperty("--cc-depth", fade.toFixed(3));
+
+                /*
+                 * Logo tetap terlihat di belakang.
+                 * Hanya logo yang benar-benar menghadap depan
+                 * yang boleh menerima klik/pointer.
+                 */
+                const interactive = facing > 0.28;
+
+                /*
+                 * Logo belakang tidak dihilangkan.
+                 * Hanya pointer interaction yang dimatikan.
+                 */
+                card.style.pointerEvents = interactive ? "auto" : "none";
+
+                /*
+                 * Jangan sembunyikan item belakang pada cylinder.
+                 */
+                if (s.layout.inward) {
+                    card.style.visibility =
+                        Math.abs(world) > 86 ? "hidden" : "";
+                } else {
+                    card.style.visibility = "";
+                }
+
+                /*
+                 * Depth fade dibuat halus supaya item belakang
+                 * masih jelas terlihat.
+                 */
+                const fade =
+                    s.depthFade *
+                    Math.pow(
+                        Math.max(0, (1 - facing) / 2),
+                        1.05
+                    );
+
+                card.style.setProperty(
+                    "--cc-depth",
+                    fade.toFixed(3)
+                );
+                ;
             }
 
             const index = ((Math.round(-state.angle / s.step) % s.count) + s.count) % s.count || 0;
@@ -795,7 +836,6 @@ const CircularCarousel = ({
         pointer.y = clamp(((event.clientY - rect.top) / rect.height) * 2 - 1, -1, 1);
     };
 
-    /** Tentukan kartu mana yang sedang di bawah kursor (untuk efek warna hover) */
     const setHover = (index: number | null) => {
         if (hoveredRef.current === index) return;
         hoveredRef.current = index;
@@ -927,7 +967,6 @@ const CircularCarousel = ({
 
     const current = list[active] || list[0];
     const label = current ? current.title || current.alt || `Image ${active + 1}` : "";
-    // Mouse: kartu di bawah kursor. Sentuh: kartu yang sedang di depan.
     const hot = hovered ?? (noHover ? active : null);
 
     const renderTile = (item: CircularCarouselItem, tile: Tile, back: boolean) => {
@@ -963,10 +1002,8 @@ const CircularCarousel = ({
                     className="absolute left-0 top-0 w-full overflow-hidden"
                     style={{ height: axis === "x" ? size : cardH, borderRadius: frameRadius }}
                 >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img className={imgClass} src={item.src} alt="" draggable={false} decoding="async" style={photoStyle} />
                     {item.hoverSrc && (
-                        // eslint-disable-next-line @next/next/no-img-element
                         <img
                             className={`${imgClass} opacity-0 transition-opacity duration-300 ease-out group-data-[hot=true]/card:opacity-100 motion-reduce:transition-none`}
                             src={item.hoverSrc}
