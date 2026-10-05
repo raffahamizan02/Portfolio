@@ -38,7 +38,7 @@ export default function ContactForm() {
   }
 
   return (
-    <form className="flex flex-col gap-5" onSubmit={handleSubmit} noValidate>
+    <form className="flex flex-col gap-4 sm:gap-5 w-full max-w-full" onSubmit={handleSubmit} noValidate>
       <div className="flex flex-col gap-2">
         <label htmlFor="name" className="text-[0.86rem] text-muted">
           Name
@@ -49,7 +49,7 @@ export default function ContactForm() {
           name="name"
           autoComplete="name"
           required
-          className="font-body text-[0.98rem] px-3.5 py-3 border border-hairline rounded-s bg-bg-raised text-ink focus:border-accent"
+          className="font-body text-base sm:text-[0.98rem] px-3.5 py-3 border border-hairline rounded-s bg-bg-raised text-ink focus:border-accent w-full max-w-full"
         />
         <span className="text-[0.8rem] text-red-700 min-h-[1.1em]">{errors.name}</span>
       </div>
@@ -64,7 +64,7 @@ export default function ContactForm() {
           name="email"
           autoComplete="email"
           required
-          className="font-body text-[0.98rem] px-3.5 py-3 border border-hairline rounded-s bg-bg-raised text-ink focus:border-accent"
+          className="font-body text-base sm:text-[0.98rem] px-3.5 py-3 border border-hairline rounded-s bg-bg-raised text-ink focus:border-accent w-full max-w-full"
         />
         <span className="text-[0.8rem] text-red-700 min-h-[1.1em]">{errors.email}</span>
       </div>
@@ -78,7 +78,7 @@ export default function ContactForm() {
           name="message"
           required
           rows={5}
-          className="font-body text-[0.98rem] px-3.5 py-3 border border-hairline rounded-s bg-bg-raised text-ink focus:border-accent resize-y min-h-[120px]"
+          className="font-body text-base sm:text-[0.98rem] px-3.5 py-3 border border-hairline rounded-s bg-bg-raised text-ink focus:border-accent resize-y min-h-[120px] w-full max-w-full"
         />
         <span className="text-[0.8rem] text-red-700 min-h-[1.1em]">{errors.message}</span>
       </div>
@@ -86,7 +86,7 @@ export default function ContactForm() {
       <div>
         <button
           type="submit"
-          className="inline-flex items-center gap-2 rounded-s bg-brand text-white px-5 py-[11px] text-sm font-semibold hover:bg-brand-strong transition-colors"
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-s bg-brand text-white px-6 py-3 min-h-[44px] text-sm font-semibold hover:bg-brand-strong transition-colors touch-manipulation cursor-pointer"
         >
           Send message
         </button>

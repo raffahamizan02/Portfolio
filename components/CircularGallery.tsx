@@ -1624,30 +1624,40 @@ export default function CircularGallery({
 
         let isMounted = true;
 
-        resolveFont(
-            font,
-            fontUrl
-        ).then((resolvedFont) => {
-            if (
-                !isMounted ||
-                !containerRef.current
-            ) {
-                return;
-            }
-
-            app = new App(
-                containerRef.current,
-                {
-                    items,
-                    bend,
-                    textColor,
-                    borderRadius,
-                    font: resolvedFont,
-                    scrollSpeed,
-                    scrollEase,
+        try {
+            resolveFont(
+                font,
+                fontUrl
+            ).then((resolvedFont) => {
+                if (
+                    !isMounted ||
+                    !containerRef.current
+                ) {
+                    return;
                 }
-            );
-        });
+
+                try {
+                    app = new App(
+                        containerRef.current,
+                        {
+                            items,
+                            bend,
+                            textColor,
+                            borderRadius,
+                            font: resolvedFont,
+                            scrollSpeed,
+                            scrollEase,
+                        }
+                    );
+                } catch (e) {
+                    console.warn('CircularGallery App error:', e);
+                }
+            }).catch((e) => {
+                console.warn('CircularGallery resolveFont error:', e);
+            });
+        } catch (e) {
+            console.warn('CircularGallery error:', e);
+        }
 
         return () => {
             isMounted = false;

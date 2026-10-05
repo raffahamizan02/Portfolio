@@ -24,6 +24,8 @@
 
 html {
   scroll-behavior: smooth;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -46,6 +48,8 @@ body {
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.25s ease, color 0.25s ease;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 @media (max-width: 767px) {
@@ -64,10 +68,21 @@ body {
   outline-offset: 3px;
 }
 
+@keyframes revealFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 .reveal {
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  opacity: 1;
+  transform: none;
+  animation: revealFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .reveal.in {

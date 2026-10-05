@@ -53,7 +53,7 @@ export default function MobileTabBar() {
             <a
               key={tab.href}
               href={hrefFor(tab.href)}
-              className="relative flex-1 flex flex-col items-center justify-center gap-1 py-2.5"
+              className="relative flex-1 flex flex-col items-center justify-center gap-1 py-2 min-h-[48px] touch-manipulation select-none"
             >
               {isActive && (
                 <motion.span

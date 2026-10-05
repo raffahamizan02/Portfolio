@@ -25,9 +25,9 @@ export default function Reveal({ children, delay = 0, className = "" }: RevealPr
 
   return (
     <motion.div
-      initial="hidden"
+      initial={false}
       whileInView="visible"
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: true, margin: "0px" }}
       variants={variants}
       className={className}
     >

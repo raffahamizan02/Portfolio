@@ -109,12 +109,7 @@ export default function SkillsMarquee() {
 
   return (
     <div
-      className="
-        relative
-        w-full
-        h-[360px]
-        md:h-[440px]
-      "
+      className="relative w-full max-w-full h-[320px] xs:h-[360px] md:h-[440px] overflow-hidden"
       role="group"
       aria-label="Skills and technologies"
     >

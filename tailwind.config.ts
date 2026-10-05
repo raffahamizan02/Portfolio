@@ -22,6 +22,13 @@ const config: Config = {
         gold: "var(--gold)",
         brand: "var(--brand)",
         "brand-strong": "var(--brand-strong)",
+        background: "var(--bg)",
+        foreground: "var(--ink)",
+        border: "var(--hairline)",
+        primary: "var(--accent)",
+        "primary-foreground": "var(--ink)",
+        card: "var(--bg-raised)",
+        "card-foreground": "var(--ink)",
       },
       fontFamily: {
         display: ["var(--font-space-grotesk)", "sans-serif"],
