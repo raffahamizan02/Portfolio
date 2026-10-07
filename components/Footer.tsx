@@ -70,7 +70,6 @@ export default function Footer() {
           </h1>
         </a>
 
-        {/* Interactive Social Media Dock */}
         <div className="mt-6 sm:mt-8 mb-2 flex justify-center overflow-x-auto no-scrollbar max-w-full py-1">
           <Dock
             items={dockSocialItems}

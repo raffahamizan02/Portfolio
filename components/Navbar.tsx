@@ -64,16 +64,27 @@ export default function Navbar() {
   return (
     <>
       <header className="hidden md:block fixed top-4 inset-x-0 z-50 pointer-events-none">
-        <div className="max-w-content mx-auto px-7">
-          <div className="relative flex items-center justify-center">
-            <div className="pointer-events-auto overflow-hidden rounded-full shadow-lg">
-              <GooeyJellyNav
-                items={items}
-                activeIndex={activeIndex}
-                initialActiveIndex={activeIndex}
-              />
-            </div>
+        <div className="max-w-content mx-auto px-7 flex items-center justify-between">
+          <a
+            href={isHome ? "#top" : "/#top"}
+            className="pointer-events-auto group inline-flex items-center gap-2 px-3.5 py-2 rounded-full border border-hairline bg-bg/90 backdrop-blur-md hover:border-accent/40 transition-colors shadow-sm"
+            aria-label="Home"
+          >
+            <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+            <span className="font-display font-semibold text-xs tracking-wider text-ink uppercase group-hover:text-accent transition-colors">
+              Abhiraffa<span className="text-accent">.</span>
+            </span>
+          </a>
+
+          <div className="pointer-events-auto overflow-hidden rounded-full shadow-lg">
+            <GooeyJellyNav
+              items={items}
+              activeIndex={activeIndex}
+              initialActiveIndex={activeIndex}
+            />
           </div>
+
+          <div className="w-[110px] pointer-events-none" aria-hidden="true" />
         </div>
       </header>
 

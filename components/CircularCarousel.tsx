@@ -665,31 +665,10 @@ const CircularCarousel = ({
                 card.style.transform = transform;
 
                 const world = wrap(base + angle);
-
-                /*
-                 * facing:
-                 *  1  = tepat di depan
-                 *  0  = samping
-                 * -1  = tepat di belakang
-                 */
                 const facing = Math.cos(world * TO_RAD);
-
-                /*
-                 * Logo tetap terlihat di belakang.
-                 * Hanya logo yang benar-benar menghadap depan
-                 * yang boleh menerima klik/pointer.
-                 */
                 const interactive = facing > 0.28;
-
-                /*
-                 * Logo belakang tidak dihilangkan.
-                 * Hanya pointer interaction yang dimatikan.
-                 */
                 card.style.pointerEvents = interactive ? "auto" : "none";
 
-                /*
-                 * Jangan sembunyikan item belakang pada cylinder.
-                 */
                 if (s.layout.inward) {
                     card.style.visibility =
                         Math.abs(world) > 86 ? "hidden" : "";
@@ -697,10 +676,6 @@ const CircularCarousel = ({
                     card.style.visibility = "";
                 }
 
-                /*
-                 * Depth fade dibuat halus supaya item belakang
-                 * masih jelas terlihat.
-                 */
                 const fade =
                     s.depthFade *
                     Math.pow(

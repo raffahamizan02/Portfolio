@@ -20,28 +20,36 @@ export default function Hero() {
     <section id="top" className="relative pt-20 sm:pt-24 md:pt-[76px] pb-16 sm:pb-20 md:pb-24 overflow-hidden" ref={rootRef}>
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
         <GradientWaves
-          horizonColor="#5227FF"
-          waveColor="#FF9FFC"
+          horizonColor="#4E050F"
+          waveColor="#C8102E"
           crestColor="#FFFFFF"
-          speed={0.4}
-          amplitude={2.5}
+          speed={0.35}
+          amplitude={2.4}
           waveScale={0.6}
           waveRatio={0.9}
-          swell={35}
-          turbulence={20}
+          swell={32}
+          turbulence={18}
           tilt={1.11}
           zoom={1.0}
           height={5.5}
-          fogDepth={15}
+          fogDepth={16}
           detail="medium"
-          brightness={0.95}
-          opacity={0.8}
+          brightness={1.0}
+          opacity={0.85}
           mouseInteraction={true}
           parallaxStrength={0.5}
           grain={true}
           grainIntensity={0.05}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-[var(--bg)] pointer-events-none" />
+        <div
+          className="absolute -top-32 -left-20 w-[500px] h-[500px] rounded-full blur-[130px] opacity-25 pointer-events-none"
+          style={{ background: "radial-gradient(circle, #C8102E 0%, transparent 70%)" }}
+        />
+        <div
+          className="absolute top-1/4 right-0 w-[420px] h-[420px] rounded-full blur-[120px] opacity-15 pointer-events-none"
+          style={{ background: "radial-gradient(circle, #F6EB61 0%, transparent 70%)" }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-[var(--bg)] pointer-events-none" />
       </div>
 
       <div className="relative z-10 max-w-content mx-auto px-4 sm:px-6 md:px-7 grid grid-cols-1 md:grid-cols-[1.15fr_0.85fr] gap-8 sm:gap-12 md:gap-16 items-center">

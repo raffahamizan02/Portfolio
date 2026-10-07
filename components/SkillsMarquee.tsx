@@ -15,18 +15,6 @@ const MUTED_COLOR = "#6f6f78";
 const toDataUri = (svg: string) =>
   `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 
-/**
- * Membuat logo + nama teknologi dalam satu SVG.
- *
- * Hasil akhirnya:
- * ┌─────────────────────┐
- * │                     │
- * │       [ LOGO ]      │
- * │                     │
- * │     JAVASCRIPT      │
- * │                     │
- * └─────────────────────┘
- */
 function buildLogo(
   Icon: IconType,
   color: string,
@@ -115,77 +103,23 @@ export default function SkillsMarquee() {
     >
       <CircularCarousel
         items={items}
-
-        /* Bentuk lingkaran 3D */
         preset="cylinder"
-
-        /*
-         * PENTING:
-         * Bagian belakang tetap dirender.
-         */
         backfaces={true}
-
-        /*
-         * Logo dibuat jauh lebih besar.
-         */
         cardWidth={190}
         aspectRatio={0.8125}
-
-        /*
-         * Jarak antar logo.
-         */
         gap={34}
-
         cornerRadius={30}
-
-        /*
-         * Tetap berputar otomatis.
-         */
         autoplay="drift"
         speed={11}
-
-        /*
-         * Jangan berhenti ketika mouse berada
-         * di atas carousel.
-         */
         pauseOnHover={false}
-
-        /*
-         * Klik tidak digunakan untuk memindahkan
-         * carousel ke posisi depan.
-         */
         focusOnClick={false}
-
-        /*
-         * Logo belakang masih terlihat.
-         * Jangan terlalu kuat fade-nya.
-         */
         depthFade={0.30}
-
         fadeColor="#000000"
-
-        /*
-         * Jangan membuat sisi belakang menjadi
-         * terlalu gelap.
-         */
         innerShade={0.15}
-
-        /*
-         * Masih bisa drag manual.
-         */
         draggable={true}
         momentum={0.72}
-
-        /*
-         * Efek pointer/parallax.
-         */
         parallax={0.18}
         stretch={0.22}
-
-        /*
-         * Klik hanya bekerja pada logo yang
-         * memang sedang berada di depan.
-         */
         onItemClick={openSkill}
       />
     </div>

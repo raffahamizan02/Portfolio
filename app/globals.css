@@ -8,13 +8,13 @@
   --ink: #f5f5f5;
   --muted: #9a9a9a;
   --hairline: #151515;
-  --accent: #c9525f;
-  --accent-strong: #e1848c;
-  --accent-tint: #281316;
-  --gold: #d4b463;
-  --brand: #c8102e;
-  --brand-strong: #e2374e;
-  --focus: #d4b463;
+  --accent: #C8102E;
+  --accent-strong: #E21B3C;
+  --accent-tint: #2A0409;
+  --gold: #F6EB61;
+  --brand: #C8102E;
+  --brand-strong: #E21B3C;
+  --focus: #F6EB61;
   color-scheme: dark;
 }
 

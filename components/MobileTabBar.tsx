@@ -3,12 +3,11 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { Home, User, Wrench, FolderGit2, Milestone, Mail } from "lucide-react";
+import { Home, User, FolderGit2, Milestone, Mail } from "lucide-react";
 
 const tabs = [
   { href: "#top", label: "Home", icon: Home },
   { href: "#about", label: "About", icon: User },
-  { href: "#skills", label: "Skills", icon: Wrench },
   { href: "#projects", label: "Projects", icon: FolderGit2 },
   { href: "#journey", label: "Journey", icon: Milestone },
   { href: "#contact", label: "Contact", icon: Mail },

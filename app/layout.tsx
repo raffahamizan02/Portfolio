@@ -3,6 +3,7 @@ import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { profile } from "@/lib/data";
 import LoadingScreen from "@/components/LoadingScreen";
+import ClickSpark from "@/components/ClickSpark";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -57,7 +58,16 @@ export default function RootLayout({
         </a>
 
         <LoadingScreen />
-        {children}
+        <ClickSpark
+          sparkColor="#C8102E"
+          sparkSize={12}
+          sparkRadius={20}
+          sparkCount={8}
+          duration={400}
+          isFixed={true}
+        >
+          {children}
+        </ClickSpark>
       </body>
     </html>
   );

@@ -97,10 +97,6 @@ interface ModelInnerProps {
   onDragStateChange?: (dragging: boolean) => void;
 }
 
-/**
- * Prominently Enlarged ThinkPad T14 Gen 2 Inner Model.
- * Scaled and centered to fill ~80-85% of the frame (like the car model in React Bits).
- */
 const ThinkPadInner: FC<ModelInnerProps> = ({
   xOff,
   yOff,
@@ -135,7 +131,6 @@ const ThinkPadInner: FC<ModelInnerProps> = ({
     g.updateWorldMatrix(true, true);
 
     const sphere = new THREE.Box3().setFromObject(g).getBoundingSphere(new THREE.Sphere());
-    // Prominent enlarged scale factor: fills ~80-85% of the view heroically
     const targetSize = 1.72;
     const s = targetSize / (sphere.radius * 2);
     g.position.set(-sphere.center.x * s, -sphere.center.y * s, -sphere.center.z * s);
@@ -176,7 +171,6 @@ const ThinkPadInner: FC<ModelInnerProps> = ({
     }
   }, [fadeIn, initPitch, initYaw, onLoaded, pivot]);
 
-  // Desktop Pointer Drag Interaction
   useEffect(() => {
     if (!enableManualRotation || isTouch) return;
     const el = gl.domElement;
@@ -209,7 +203,6 @@ const ThinkPadInner: FC<ModelInnerProps> = ({
       ly = e.clientY;
 
       outer.current.rotation.y += dx * ROTATE_SPEED;
-      // Clamp pitch so the laptop stays right side up
       const nextPitch = outer.current.rotation.x + dy * ROTATE_SPEED;
       outer.current.rotation.x = Math.max(-0.65, Math.min(0.75, nextPitch));
 
@@ -226,7 +219,6 @@ const ThinkPadInner: FC<ModelInnerProps> = ({
     };
   }, [gl, enableManualRotation, onDragStateChange]);
 
-  // Mobile Touch Swipe Interaction
   useEffect(() => {
     if (!isTouch) return;
     const el = gl.domElement;
@@ -304,7 +296,6 @@ const ThinkPadInner: FC<ModelInnerProps> = ({
     };
   }, [gl, enableManualRotation, onDragStateChange]);
 
-  // Mouse Hover & Parallax Tilt
   useEffect(() => {
     if (isTouch) return;
     const mm = (e: PointerEvent) => {
@@ -336,13 +327,11 @@ const ThinkPadInner: FC<ModelInnerProps> = ({
     outer.current.rotation.x += cHov.current.x - phx;
     outer.current.rotation.y += cHov.current.y - phy;
 
-    // Auto-rotate only when not dragging
     if (autoRotate && !isDragging.current) {
       outer.current.rotation.y += autoRotateSpeed * dt;
       need = true;
     }
 
-    // Smooth inertia coasting
     outer.current.rotation.y += vel.current.x;
     outer.current.rotation.x += vel.current.y;
     vel.current.x *= INERTIA;
@@ -370,9 +359,6 @@ const ThinkPadInner: FC<ModelInnerProps> = ({
   );
 };
 
-/**
- * Fallback GLTF loader for external URL models.
- */
 const GLTFInner: FC<ModelInnerProps & { url: string }> = ({
   url,
   xOff,
@@ -516,7 +502,6 @@ const ModelViewer: FC<ViewerProps> = ({
         <directionalLight position={[-5, 3, 4]} intensity={fillLightIntensity} />
         <directionalLight position={[0, 4, -5]} intensity={rimLightIntensity} />
 
-        {/* Soft, authentic floor shadow underneath the laptop chassis */}
         <ContactShadows
           ref={contactRef as any}
           position={[0, -0.42, 0]}
