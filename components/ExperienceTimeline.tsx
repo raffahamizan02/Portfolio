@@ -62,7 +62,7 @@ export default function ExperienceTimeline() {
             </div>
           </div>
 
-          <div className="lg:col-span-6 flex flex-col items-center justify-center pt-2 lg:pt-0">
+          <div className="lg:col-span-6 flex flex-col items-center justify-center pt-8 lg:pt-0 w-full">
             <Reveal delay={0.15} className="w-full">
               <JourneyCardSwap />
             </Reveal>

@@ -258,20 +258,26 @@ const TechText = ({
             const chars = Array.from(s.text);
             const previous = glyphs;
             glyphs = [];
-            let prefix = '';
             chars.forEach((char, i) => {
-                prefix += char;
-                const own = probe.measureText(char);
-                const gx = x + probe.measureText(prefix).width - own.width;
                 if (!char.trim()) return;
+                const prevPrefix = s.text.slice(0, i);
+                const own = probe.measureText(char);
+                const prevWidth = i === 0 ? 0 : probe.measureText(prevPrefix).width;
+                const gx = x + prevWidth;
+
+                const leftInk = own.actualBoundingBoxLeft || 0;
+                const rightInk = own.actualBoundingBoxRight || own.width;
+                const ascent = own.actualBoundingBoxAscent || size * 0.75;
+                const descent = own.actualBoundingBoxDescent || size * 0.25;
+
                 const base = {
                     char,
                     x: gx,
                     box: {
-                        x1: gx - own.actualBoundingBoxLeft,
-                        y1: baseline - own.actualBoundingBoxAscent,
-                        x2: gx + own.actualBoundingBoxRight,
-                        y2: baseline + own.actualBoundingBoxDescent
+                        x1: gx - leftInk,
+                        y1: baseline - ascent,
+                        x2: gx + rightInk,
+                        y2: baseline + descent
                     }
                 };
                 const kept = previous[glyphs.length];
@@ -291,19 +297,22 @@ const TechText = ({
         };
 
         const glyphAt = (x: number, y: number) => {
-            if (!word || y < word.top - 24 || y > word.bottom + 24) return -1;
+            if (!word || y < word.top - 40 || y > word.bottom + 40) return -1;
             let best = -1;
             let bestDistance = Infinity;
             glyphs.forEach((glyph, i) => {
                 const x1 = glyph.box.x1 + glyph.offset.x;
                 const x2 = glyph.box.x2 + glyph.offset.x;
-                const d = x < x1 ? x1 - x : x > x2 ? x - x2 : 0;
-                if (d < bestDistance) {
-                    bestDistance = d;
+                const cx = (x1 + x2) / 2;
+                const pad = 6;
+                const isInside = x >= x1 - pad && x <= x2 + pad;
+                const dist = isInside ? Math.abs(x - cx) : 1000 + (x < x1 ? x1 - x : x - x2);
+                if (dist < bestDistance) {
+                    bestDistance = dist;
                     best = i;
                 }
             });
-            return bestDistance < 28 ? best : -1;
+            return bestDistance < 1050 ? best : -1;
         };
 
         const falloff = (
@@ -537,8 +546,11 @@ const TechText = ({
             let moving = false;
             glyphs.forEach((glyph, i) => {
                 if (i === dragging) {
-                    glyph.offset.x = approach(glyph.offset.x, pointer.x - grab.x, dt, 0.03);
-                    glyph.offset.y = approach(glyph.offset.y, pointer.y - grab.y, dt, 0.03);
+                    const ox = approach(glyph.offset.x, pointer.x - grab.x, dt, 0.03);
+                    const oy = approach(glyph.offset.y, pointer.y - grab.y, dt, 0.03);
+                    if (Math.hypot(ox, oy) > 3) wasDragged = true;
+                    glyph.offset.x = ox;
+                    glyph.offset.y = oy;
                     glyph.velocity.x = 0;
                     glyph.velocity.y = 0;
                     moving = true;
@@ -559,14 +571,20 @@ const TechText = ({
                 moving = true;
             });
 
-            const focus = dragging >= 0 ? dragging : active ? glyphAt(lens.x, lens.y) : -1;
+            const focus = dragging >= 0
+                ? dragging
+                : pointer.inside
+                    ? glyphAt(pointer.x, pointer.y)
+                    : active
+                        ? glyphAt(lens.x, lens.y)
+                        : -1;
             if (focus >= 0 && s.selection) {
                 const glyph = glyphs[focus];
                 const bx1 = glyph.box.x1 + glyph.offset.x - 6;
                 const by1 = glyph.box.y1 + glyph.offset.y - 6;
                 const bx2 = glyph.box.x2 + glyph.offset.x + 6;
                 const by2 = glyph.box.y2 + glyph.offset.y + 6;
-                if (frame.index < 0 || frame.alpha < 0.02) {
+                if (frame.index < 0 || frame.alpha < 0.08) {
                     frame.x1 = bx1;
                     frame.y1 = by1;
                     frame.x2 = bx2;
@@ -639,14 +657,21 @@ const TechText = ({
             wake();
         };
 
+        let wasDragged = false;
         const locate = (e: PointerEvent) => {
             const rect = container.getBoundingClientRect();
-            pointer.x = e.clientX - rect.left;
-            pointer.y = e.clientY - rect.top;
+            const scaleX = rect.width / Math.max(1, container.clientWidth);
+            const scaleY = rect.height / Math.max(1, container.clientHeight);
+            pointer.x = (e.clientX - rect.left) / (scaleX || 1);
+            pointer.y = (e.clientY - rect.top) / (scaleY || 1);
         };
         const onMove = (e: PointerEvent) => {
             locate(e);
             pointer.inside = true;
+            if (!placed) {
+                lens.x = pointer.x;
+                lens.y = pointer.y;
+            }
             wake();
         };
         const onLeave = () => {
@@ -657,6 +682,7 @@ const TechText = ({
         const onDown = (e: PointerEvent) => {
             locate(e);
             pointer.inside = true;
+            wasDragged = false;
             const s = settingsRef.current;
             if (s?.draggable && (e.pointerType !== 'mouse' || e.button === 0)) {
                 const index = glyphAt(pointer.x, pointer.y);
@@ -679,6 +705,13 @@ const TechText = ({
             }
             wake();
         };
+        const onClickCapture = (e: MouseEvent) => {
+            if (wasDragged) {
+                e.preventDefault();
+                e.stopPropagation();
+                wasDragged = false;
+            }
+        };
 
         container.addEventListener('pointermove', onMove, { passive: true });
         container.addEventListener('pointerenter', onMove, { passive: true });
@@ -686,6 +719,7 @@ const TechText = ({
         container.addEventListener('pointerup', onUp, { passive: true });
         container.addEventListener('pointercancel', onUp, { passive: true });
         container.addEventListener('pointerleave', onLeave, { passive: true });
+        container.addEventListener('click', onClickCapture, true);
 
         const resizeObserver = new ResizeObserver(resize);
         resizeObserver.observe(container);
@@ -710,13 +744,14 @@ const TechText = ({
             container.removeEventListener('pointerup', onUp);
             container.removeEventListener('pointercancel', onUp);
             container.removeEventListener('pointerleave', onLeave);
+            container.removeEventListener('click', onClickCapture, true);
         };
     }, []);
 
     return (
         <div
             ref={containerRef}
-            className={`relative block w-[min(90vw,900px)] h-[clamp(3rem,9vw,6.5rem)] mx-auto touch-pan-y select-none ${className}`.trim()}
+            className={`relative block w-[min(95vw,1000px)] h-[clamp(3.5rem,10vw,7.5rem)] mx-auto touch-pan-y select-none ${className}`.trim()}
             style={style}
             role="img"
             aria-label={text}

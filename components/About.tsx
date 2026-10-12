@@ -37,15 +37,12 @@ export default function About() {
 
             <div className="space-y-4 sm:space-y-5">
               <p className="text-base sm:text-[1.05rem] md:text-[1.125rem] text-muted leading-relaxed sm:leading-[1.8] font-normal break-words">
-                I am a Software Engineering student at SMK PGRI 3 Malang with a strong focus on backend
-                development. I thrive on designing robust APIs, managing complex databases, and
-                architecting reliable, efficient server-side systems.
-              </p>
-
-              <p className="text-base sm:text-[1.05rem] md:text-[1.125rem] text-muted leading-relaxed sm:leading-[1.8] font-normal break-words">
-                I enjoy diving deep into how systems operate behind the scenes. My approach centers on
-                analytical problem-solving, writing clean code, and building scalable architectures that
-                can handle real-world demands.
+                I live at the crossroads where foundational architecture meets emerging intelligence. As an IT student,
+                I constantly dissect modern technology from the ground up,
+                channeling that knowledge into my work as a backend developer to construct resilient, data-driven backbones.
+                Expanding into machine learning and AI engineering, my mission is to give systems not just stability, but true cognitive power.
+                Paired with a deep appreciation for vibe coding, I embrace fast-paced iteration and effortless flow to ship creative,
+                intelligent applications that make an impact.
               </p>
             </div>
           </motion.div>

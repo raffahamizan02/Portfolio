@@ -7,14 +7,15 @@ const ROLES = [
   "IT Student",
   "Vibe Coding",
   "Machine Learning",
+  "AI Engineer"
 ];
 
 const ROLE_COLORS = [
   "#C8102E",
-  "#F6EB61",
-  "#FFFFFF",
   "#E21B3C",
-  "#F6EB61",
+  "#FFFFFF",
+  "#C8102E",
+  "#E21B3C",
 ];
 
 export default function TerminalLine() {
@@ -26,7 +27,7 @@ export default function TerminalLine() {
     >
       <span className="flex items-center gap-1.5 shrink-0" aria-hidden="true">
         <span className="w-2.5 h-2.5 rounded-full bg-[#414A4C] shadow-[0_0_6px_rgba(200,16,46,0.6)] group-hover:scale-110 transition-transform duration-200" />
-        <span className="w-2.5 h-2.5 rounded-full bg-[#F6EB61] shadow-[0_0_6px_rgba(246,235,97,0.5)] group-hover:scale-110 transition-transform duration-200" />
+        <span className="w-2.5 h-2.5 rounded-full bg-[#E21B3C] shadow-[0_0_6px_rgba(226,27,60,0.5)] group-hover:scale-110 transition-transform duration-200" />
         <span className="w-2.5 h-2.5 rounded-full bg-[#C8102E] shadow-[0_0_6px_rgba(200,16,46,0.5)] group-hover:scale-110 transition-transform duration-200" />
       </span>
 

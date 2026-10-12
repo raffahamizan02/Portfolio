@@ -1,38 +1,39 @@
 "use client";
 
-import { useState } from "react";
 import DecayCard from "./DecayCard";
 
 export default function HeroVisual() {
-  const [isSurging, setIsSurging] = useState(false);
-
   return (
-    <div
-      className="reveal relative max-w-[315px] xs:max-w-[340px] sm:max-w-[370px] w-full mx-auto md:mr-0 md:justify-self-end select-none overflow-visible flex items-center justify-center"
-      onPointerEnter={() => setIsSurging(true)}
-      onPointerLeave={() => setIsSurging(false)}
-    >
+    <div className="reveal relative w-full mx-auto select-none overflow-visible flex items-center justify-center">
+      {/* Cloud-like ambient backdrop glow with soft luminous breathing */}
       <div
-        aria-hidden="true"
-        className="absolute -inset-6 rounded-3xl opacity-60 pointer-events-none transition-opacity duration-500 blur-2xl"
+        className="absolute -inset-4 sm:-inset-6 rounded-[36px] opacity-40 blur-2xl pointer-events-none -z-10 animate-pulse"
         style={{
-          background: isSurging
-            ? "radial-gradient(circle at 50% 50%, rgba(200, 16, 46, 0.38) 0%, rgba(246, 235, 97, 0.2) 45%, transparent 75%)"
-            : "radial-gradient(circle at 50% 50%, rgba(200, 16, 46, 0.22) 0%, rgba(212, 180, 99, 0.12) 45%, transparent 75%)",
+          background:
+            "radial-gradient(circle, rgba(200,16,46,0.45) 0%, rgba(226,27,60,0.2) 60%, transparent 80%)",
+          animationDuration: "5.5s"
         }}
+        aria-hidden="true"
       />
 
       <DecayCard
-        width={340}
-        height={425}
+        width={270}
+        height={345}
         image="/projects/profile.jpg"
-        baseFrequency={0.015}
-        numOctaves={5}
-        seed={4}
-        maxDisplacement={380}
-        movementBound={45}
-        borderRadius={28}
-        className="relative z-10 drop-shadow-[0_20px_45px_rgba(200,16,46,0.25)]"
+        cloudSpeed={1.0}
+        amplitudeX={16}
+        amplitudeY={13}
+        tiltAmplitude={3.2}
+        rotAmplitude={2.2}
+        borderRadius={24}
+        glareColor="#ffffff"
+        glareOpacity={0.35}
+        glareAngle={-35}
+        glareSize={240}
+        transitionDuration={2800}
+        autoPlay={true}
+        continuous={true}
+        className="relative z-10 drop-shadow-[0_20px_40px_rgba(200,16,46,0.25)] w-full max-w-[240px] xs:max-w-[255px] sm:max-w-[270px]"
       />
     </div>
   );

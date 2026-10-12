@@ -7,9 +7,8 @@ import {
   useSpring,
   useTransform,
   type SpringOptions,
-  AnimatePresence
 } from 'framer-motion';
-import React, { Children, cloneElement, useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 
 export type DockItemData = {
   icon: React.ReactNode;
@@ -18,6 +17,7 @@ export type DockItemData = {
   href?: string;
   target?: string;
   className?: string;
+  labelClassName?: string;
 };
 
 export type DockProps = {
@@ -32,7 +32,8 @@ export type DockProps = {
 
 type DockItemProps = {
   className?: string;
-  children: React.ReactNode;
+  icon: React.ReactNode;
+  label: React.ReactNode;
   onClick?: () => void;
   href?: string;
   target?: string;
@@ -41,12 +42,13 @@ type DockItemProps = {
   distance: number;
   baseItemSize: number;
   magnification: number;
-  label?: React.ReactNode;
+  labelClassName?: string;
 };
 
 function DockItem({
-  children,
   className = '',
+  icon,
+  label,
   onClick,
   href,
   target = '_blank',
@@ -55,10 +57,9 @@ function DockItem({
   distance,
   magnification,
   baseItemSize,
-  label
+  labelClassName = ''
 }: DockItemProps) {
-  const ref = useRef<HTMLAnchorElement & HTMLButtonElement>(null);
-  const isHovered = useMotionValue(0);
+  const ref = useRef<HTMLDivElement>(null);
 
   const mouseDistance = useTransform(mouseX, (val) => {
     const rect = ref.current?.getBoundingClientRect() ?? {
@@ -68,7 +69,11 @@ function DockItem({
     return val - rect.left - baseItemSize / 2;
   });
 
-  const targetSize = useTransform(mouseDistance, [-distance, 0, distance], [baseItemSize, magnification, baseItemSize]);
+  const targetSize = useTransform(
+    mouseDistance,
+    [-distance, 0, distance],
+    [baseItemSize, magnification, baseItemSize]
+  );
   const size = useSpring(targetSize, spring);
 
   const handleClick = (e: React.MouseEvent) => {
@@ -86,143 +91,96 @@ function DockItem({
     }
   };
 
-  const itemContent = Children.map(children, (child) =>
-    React.isValidElement(child)
-      ? cloneElement(child as React.ReactElement<{ isHovered?: MotionValue<number> }>, { isHovered })
-      : child
-  );
+  const content = (
+    <div className="group flex flex-col items-center justify-start gap-1 sm:gap-1.5 focus:outline-none select-none text-center cursor-pointer no-underline">
+      {/* Social icon button */}
+      <motion.div
+        ref={ref}
+        style={{
+          width: size,
+          height: size
+        }}
+        className={`relative inline-flex items-center justify-center rounded-full border bg-transparent shadow-sm transition-colors duration-200 ${className}`}
+      >
+        {icon}
+      </motion.div>
 
-  const commonProps = {
-    ref,
-    style: {
-      width: size,
-      height: size
-    },
-    onHoverStart: () => isHovered.set(1),
-    onHoverEnd: () => isHovered.set(0),
-    onFocus: () => isHovered.set(1),
-    onBlur: () => isHovered.set(0),
-    onClick: handleClick,
-    onKeyDown: handleKeyDown,
-    className: `relative inline-flex items-center justify-center rounded-full border bg-transparent shadow-sm cursor-pointer transition-colors duration-200 select-none ${className}`,
-    'aria-label': typeof label === 'string' ? label : undefined
-  };
+      {/* Social media name directly beneath the corresponding logo */}
+      <span
+        className={`font-mono text-[10px] sm:text-[11px] font-medium text-muted/80 group-hover:text-ink transition-colors leading-tight tracking-tight text-center whitespace-nowrap select-none ${labelClassName}`}
+      >
+        {label}
+      </span>
+    </div>
+  );
 
   if (href) {
     return (
-      <motion.a
-        {...commonProps}
+      <a
         href={href}
         target={target}
         rel={target === '_blank' ? 'noopener noreferrer' : undefined}
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
+        title={typeof label === 'string' ? label : undefined}
+        aria-label={typeof label === 'string' ? label : undefined}
+        className="focus:outline-none no-underline touch-manipulation"
       >
-        {itemContent}
-      </motion.a>
+        {content}
+      </a>
     );
   }
 
   return (
-    <motion.button
-      {...commonProps}
+    <button
       type="button"
-      tabIndex={0}
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      title={typeof label === 'string' ? label : undefined}
+      aria-label={typeof label === 'string' ? label : undefined}
+      className="focus:outline-none bg-transparent border-0 p-0 cursor-pointer touch-manipulation"
     >
-      {itemContent}
-    </motion.button>
+      {content}
+    </button>
   );
-}
-
-type DockLabelProps = {
-  className?: string;
-  children: React.ReactNode;
-  isHovered?: MotionValue<number>;
-};
-
-function DockLabel({ children, className = '', isHovered }: DockLabelProps) {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    if (!isHovered) return;
-    const unsubscribe = isHovered.on('change', (latest) => {
-      setIsVisible(latest === 1);
-    });
-    return () => unsubscribe();
-  }, [isHovered]);
-
-  return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.div
-          initial={{ opacity: 0, y: 0, scale: 0.9 }}
-          animate={{ opacity: 1, y: -10, scale: 1 }}
-          exit={{ opacity: 0, y: 0, scale: 0.9 }}
-          transition={{ duration: 0.15 }}
-          className={`${className} absolute -top-8 left-1/2 w-fit whitespace-pre rounded-md border border-hairline bg-bg-raised/95 backdrop-blur-md px-2.5 py-0.5 font-mono text-[0.72rem] text-ink shadow-lg pointer-events-none select-none z-30`}
-          role="tooltip"
-          style={{ x: '-50%' }}
-        >
-          {children}
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-}
-
-type DockIconProps = {
-  className?: string;
-  children: React.ReactNode;
-  isHovered?: MotionValue<number>;
-};
-
-function DockIcon({ children, className = '' }: DockIconProps) {
-  return <div className={`flex items-center justify-center ${className}`}>{children}</div>;
 }
 
 export default function Dock({
   items,
   className = '',
   spring = { mass: 0.1, stiffness: 150, damping: 12 },
-  magnification = 68,
-  distance = 180,
-  panelHeight = 64,
-  baseItemSize = 48
+  magnification = 58,
+  distance = 140,
+  panelHeight = 84,
+  baseItemSize = 44
 }: DockProps) {
   const mouseX = useMotionValue(Infinity);
 
   return (
-    <div
-      className="relative mx-auto flex w-fit max-w-full items-end justify-center overflow-visible"
-      style={{ height: magnification + 14 }}
-    >
+    <div className="relative mx-auto flex w-fit max-w-full items-end justify-center overflow-visible px-2">
       <div
-        onMouseMove={(e) => {
-          mouseX.set(e.clientX);
-        }}
-        onMouseLeave={() => {
-          mouseX.set(Infinity);
-        }}
-        className={`${className} relative flex items-end w-fit gap-3 sm:gap-3.5 rounded-2xl border border-white/10 bg-transparent backdrop-blur-sm pb-2 px-3 sm:px-4 shadow-lg`}
-        style={{ height: panelHeight }}
+        onMouseMove={(e) => mouseX.set(e.clientX)}
+        onMouseLeave={() => mouseX.set(Infinity)}
+        className={`${className} relative flex items-end justify-center w-fit max-w-full gap-2.5 xs:gap-3.5 sm:gap-4 md:gap-5 rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md px-3 sm:px-5 pt-3 pb-2.5 shadow-lg overflow-visible`}
         role="toolbar"
-        aria-label="Application dock"
+        aria-label="Social media dock"
       >
         {items.map((item, index) => (
           <DockItem
             key={index}
+            icon={item.icon}
+            label={item.label}
             onClick={item.onClick}
             href={item.href}
             target={item.target}
             className={item.className}
+            labelClassName={item.labelClassName}
             mouseX={mouseX}
             spring={spring}
             distance={distance}
             magnification={magnification}
             baseItemSize={baseItemSize}
-            label={item.label}
-          >
-            <DockIcon>{item.icon}</DockIcon>
-            <DockLabel>{item.label}</DockLabel>
-          </DockItem>
+          />
         ))}
       </div>
     </div>

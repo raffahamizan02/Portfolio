@@ -65,18 +65,23 @@ export default function Footer() {
     <footer className="pt-16 sm:pt-20 pb-20 sm:pb-8 border-t border-hairline overflow-x-hidden overflow-y-visible">
       <div className="max-w-content mx-auto px-4 sm:px-6 md:px-7 max-w-full overflow-x-hidden overflow-y-visible">
         <a href={hrefFor("#top")} className="flex mx-auto no-underline w-fit max-w-full">
-          <h1 className="scale-x-100 sm:scale-x-[1.15] origin-center font-display font-semibold uppercase leading-[0.95] sm:leading-[0.9] text-[clamp(1.5rem,7.2vw,6.5rem)] tracking-tight text-ink text-center max-w-full break-words [text-wrap:balance]">
-            <TechText text="ABHIRAFFA HAMIZAN" />
+          <h1 className="font-display font-semibold uppercase leading-[0.95] sm:leading-[0.9] text-[clamp(1.5rem,7.2vw,6.5rem)] tracking-tight text-ink text-center max-w-full break-words [text-wrap:balance]">
+            <TechText
+              text="ABHIRAFFA HAMIZAN"
+              color="#f5f5f5"
+              accentColor="#C8102E"
+            />
           </h1>
         </a>
 
-        <div className="mt-6 sm:mt-8 mb-2 flex justify-center overflow-x-auto no-scrollbar max-w-full py-1">
+        {/* Interactive Social Media Dock */}
+        <div className="mt-8 mb-4 flex justify-center overflow-visible max-w-full px-2">
           <Dock
             items={dockSocialItems}
-            panelHeight={60}
+            panelHeight={84}
             baseItemSize={44}
-            magnification={60}
-            distance={140}
+            magnification={58}
+            distance={130}
           />
         </div>
 
